@@ -2,8 +2,11 @@
   "name": "class-components",
   "version": "1.0.0",
   "description": "rss-react-2024-q3-task",
-  "main": "index.ts",
+  "main": "index.tsx",
+  "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
     "format:fix": "prettier  --write ./src",
     "lint": "eslint ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,10 +26,12 @@
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "prettier": "^3.3.2",
     "typescript": "^5.5.3",
-    "vite": "^5.3.3"
+    "vite": "^5.1.6",
+    "vite-svg-loader": "^5.1.0"
   }
 }
