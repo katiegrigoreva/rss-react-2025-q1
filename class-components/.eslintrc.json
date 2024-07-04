@@ -12,6 +12,7 @@
   "plugins": [
     "react",
     "react-refresh",
+    "react-compiler",
     "prettier",
     "import",
     "@typescript-eslint"
@@ -43,6 +44,7 @@
         "allowConstantExport": true
       }
     ],
+    "react-compiler/react-compiler": "error",
     "prettier/prettier": [
       "error",
       {
