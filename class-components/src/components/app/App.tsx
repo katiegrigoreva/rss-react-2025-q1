@@ -3,6 +3,7 @@ import Header from '../header/Header';
 import SearchPanel from '../searchPanel/SearchPanel';
 
 import './app.css';
+import HeroesList from '../heroesList/HeroesList';
 
 export default class App extends Component {
   render() {
@@ -11,6 +12,7 @@ export default class App extends Component {
         <Header>
           <SearchPanel />
         </Header>
+        <HeroesList />
       </div>
     );
   }
