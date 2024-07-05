@@ -7,7 +7,7 @@ class SearchPanel extends Component {
     return (
       <div className="searchPanel">
         <input type="text" className="searchPanel__input" placeholder="Search your superhero" />
-        <button className="searchPanel__btn">Enter</button>
+        <button className="searchPanel__btn">Search</button>
       </div>
     );
   }
