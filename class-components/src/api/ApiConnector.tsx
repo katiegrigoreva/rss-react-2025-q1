@@ -23,7 +23,7 @@ class ApiConnector {
   transformHeroData = (hero: heroData) => {
     return {
       name: hero.name,
-      description: hero.description ? hero.description : 'There is no description for this character',
+      description: hero.description ? hero.description : 'Description is not found',
       img: `${hero.thumbnail?.path}.${hero.thumbnail?.extension}`,
     };
   };
