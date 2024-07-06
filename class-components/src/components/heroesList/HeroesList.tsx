@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
 import './heroesList.css';
+import Spinner from '../spinner/Spinner';
 
 interface heroesListState {
   heroesList: [heroData] | [];
@@ -49,12 +50,17 @@ class HeroesList extends Component {
   }
 
   render() {
-    const { heroesList } = this.state;
+    const { heroesList, loading } = this.state;
 
-    if (heroesList.length) {
-      const items = this.renderItems(heroesList);
-      return <div className="hero__list">{items}</div>;
-    }
+    const items = heroesList.length ? this.renderItems(heroesList) : [];
+    const spinner = loading ? <Spinner /> : null;
+    const content = !loading ? items : null;
+    return (
+      <div className="hero__list">
+        {spinner}
+        {content}
+      </div>
+    );
   }
 }
 export default HeroesList;
