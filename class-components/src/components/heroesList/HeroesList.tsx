@@ -9,12 +9,19 @@ interface heroesListState {
   error: boolean;
 }
 
-class HeroesList extends Component {
-  state: heroesListState = {
-    heroesList: [],
-    loading: true,
-    error: false,
-  };
+type HeroesListProps = {
+  heroesList: [heroData] | [];
+};
+
+class HeroesList extends Component<HeroesListProps, heroesListState> {
+  constructor(props: HeroesListProps) {
+    super(props);
+    this.state = {
+      heroesList: [],
+      loading: true,
+      error: false,
+    };
+  }
 
   apiConnector = new ApiConnector();
 
@@ -22,7 +29,13 @@ class HeroesList extends Component {
     this.apiConnector.getAllHeroes().then(this.onListLoaded).catch(this.onError);
   }
 
-  onListLoaded = (heroesList: [heroData]) => {
+  componentDidUpdate(prevProps: Readonly<HeroesListProps>): void {
+    if (this.props.heroesList !== prevProps.heroesList) {
+      this.onListLoaded(this.props.heroesList);
+    }
+  }
+
+  onListLoaded = (heroesList: [heroData] | []) => {
     this.setState({
       heroesList,
       loading: false,

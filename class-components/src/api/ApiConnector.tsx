@@ -10,6 +10,7 @@ export interface heroData {
 
 class ApiConnector {
   _apiKey = 'apikey=ede7c87b314e4253d2fa3cc4c3e4b962';
+  _apiBase = 'https://gateway.marvel.com:443/v1/public/characters?';
 
   getData = async (url: string) => {
     const res = await fetch(url);
@@ -29,9 +30,12 @@ class ApiConnector {
   };
 
   getAllHeroes = async () => {
-    const res = await this.getData(
-      `https://gateway.marvel.com:443/v1/public/characters?limit=12&offset=80&${this._apiKey}`
-    );
+    const res = await this.getData(`${this._apiBase}limit=12&offset=80&${this._apiKey}`);
+    return res.data.results.map(this.transformHeroData);
+  };
+
+  getSearchData = async (searchValue: string) => {
+    const res = await this.getData(`${this._apiBase}nameStartsWith=${searchValue}&limit=12&${this._apiKey}`);
     return res.data.results.map(this.transformHeroData);
   };
 }
