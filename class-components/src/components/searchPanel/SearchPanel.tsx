@@ -14,7 +14,7 @@ class SearchPanel extends Component<AppProps, { term: string }> {
   apiConnector = new ApiConnector();
 
   onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const term = e.target.value;
+    const term = e.target.value.trim().toLowerCase();
     this.setState({ term });
     this.props.onUpdateSearch(term);
   };

@@ -66,7 +66,7 @@ class HeroesList extends Component<HeroesListProps, heroesListState> {
   render() {
     const { heroesList, loading, error } = this.state;
 
-    const items = heroesList.length ? this.renderItems(heroesList) : [];
+    const items = heroesList.length ? this.renderItems(heroesList) : <h3>There is no hero with such name</h3>;
     const spinner = loading ? <Spinner /> : null;
     const content = !loading ? items : null;
     const errorMessage = error ? <ErrorMessage /> : null;
