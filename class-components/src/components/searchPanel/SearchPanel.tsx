@@ -1,17 +1,10 @@
 import { ChangeEvent, Component } from 'react';
 import './searchPanel.css';
 import ApiConnector from '../../api/ApiConnector';
+import { AppProps } from '../app/App';
 
-export type SearchPanelProps = {
-  onUpdateSearch: onUpdateSearchType;
-};
-
-export type onUpdateSearchType = {
-  (arg: string): void;
-};
-
-class SearchPanel extends Component<SearchPanelProps, { term: string }> {
-  constructor(props: SearchPanelProps) {
+class SearchPanel extends Component<AppProps, { term: string }> {
+  constructor(props: AppProps) {
     super(props);
     this.state = {
       term: '',

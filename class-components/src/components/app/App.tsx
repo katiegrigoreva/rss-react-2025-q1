@@ -1,20 +1,25 @@
 import { Component } from 'react';
 import Header from '../header/Header';
-import SearchPanel, { SearchPanelProps } from '../searchPanel/SearchPanel';
+import SearchPanel from '../searchPanel/SearchPanel';
 
 import './app.css';
 import HeroesList, { heroesListState } from '../heroesList/HeroesList';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
-import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 type AppStateType = {
   term: string;
 };
+export type AppProps = {
+  onUpdateSearch: onUpdateSearchType;
+};
+export type onUpdateSearchType = {
+  (arg: string): void;
+};
 
-export default class App extends Component<SearchPanelProps, AppStateType & heroesListState> {
-  constructor(props: SearchPanelProps) {
+export default class App extends Component<AppProps, AppStateType & heroesListState> {
+  constructor(props: AppProps) {
     super(props);
     this.state = {
       term: '',
@@ -56,8 +61,9 @@ export default class App extends Component<SearchPanelProps, AppStateType & hero
 
   makeError = () => {
     this.setState({
-      heroesList: 'ooooops',
+      error: true,
     });
+    throw new Error('Ooooops! An error occurred!');
   };
 
   render() {
@@ -78,9 +84,7 @@ export default class App extends Component<SearchPanelProps, AppStateType & hero
         </div>
         {spinner}
         {errorMessage}
-        <ErrorBoundary>
-          <HeroesList heroesList={this.state.heroesList} />
-        </ErrorBoundary>
+        <HeroesList heroesList={this.state.heroesList} />
       </div>
     );
   }
