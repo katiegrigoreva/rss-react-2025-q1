@@ -2,8 +2,9 @@ import { Component } from 'react';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
 import './heroesList.css';
 import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 
-interface heroesListState {
+export interface heroesListState {
   heroesList: [heroData] | [];
   loading: boolean;
   error: boolean;
@@ -63,14 +64,17 @@ class HeroesList extends Component<HeroesListProps, heroesListState> {
   }
 
   render() {
-    const { heroesList, loading } = this.state;
+    const { heroesList, loading, error } = this.state;
 
     const items = heroesList.length ? this.renderItems(heroesList) : [];
     const spinner = loading ? <Spinner /> : null;
     const content = !loading ? items : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
+
     return (
       <div className="hero__list">
         {spinner}
+        {errorMessage}
         {content}
       </div>
     );

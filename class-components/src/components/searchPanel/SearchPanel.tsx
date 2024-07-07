@@ -28,16 +28,6 @@ class SearchPanel extends Component<SearchPanelProps, { term: string }> {
 
   render() {
     return (
-      /*  <div className="searchPanel">
-        <input
-          type="text"
-          className="searchPanel__input"
-          placeholder="Search your superhero"
-          value={this.state.value}
-          onChange={this.updateSearchString}
-        />
-        <button className="searchPanel__btn">Search</button>
-      </div> */
       <input
         type="text"
         className="searchPanel__input"

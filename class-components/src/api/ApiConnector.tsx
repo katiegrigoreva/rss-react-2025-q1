@@ -35,6 +35,10 @@ class ApiConnector {
   };
 
   getSearchData = async (searchValue: string) => {
+    if (searchValue.length === 0) {
+      return this.getAllHeroes();
+    }
+
     const res = await this.getData(`${this._apiBase}nameStartsWith=${searchValue}&limit=12&${this._apiKey}`);
     return res.data.results.map(this.transformHeroData);
   };

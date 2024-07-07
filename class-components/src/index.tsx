@@ -1,10 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import App from './components/app/App';
 import './style/style.css';
-/* import ApiConnector from './api/ApiConnector';
-
-const apiConnector = new ApiConnector();
-apiConnector.getAllHeroes(); */
 
 const container = document.getElementById('root');
 if (container) {

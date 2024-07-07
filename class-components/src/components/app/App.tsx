@@ -3,21 +3,24 @@ import Header from '../header/Header';
 import SearchPanel, { SearchPanelProps } from '../searchPanel/SearchPanel';
 
 import './app.css';
-import '../searchPanel/searchPanel.css';
-import HeroesList from '../heroesList/HeroesList';
+import HeroesList, { heroesListState } from '../heroesList/HeroesList';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import Spinner from '../spinner/Spinner';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
-type StateType = {
+type AppStateType = {
   term: string;
-  heroesList: [heroData] | [];
 };
 
-export default class App extends Component<SearchPanelProps, StateType> {
+export default class App extends Component<SearchPanelProps, AppStateType & heroesListState> {
   constructor(props: SearchPanelProps) {
     super(props);
     this.state = {
       term: '',
       heroesList: [],
+      loading: false,
+      error: false,
     };
   }
 
@@ -28,11 +31,13 @@ export default class App extends Component<SearchPanelProps, StateType> {
   };
 
   getSearchData = () => {
+    this.setState({ loading: true });
     return this.apiConnector
       .getSearchData(this.state.term)
       .then(this.onUpdateHeroesList)
-      .catch(() => {
-        throw new Error('Ooooops');
+      .catch(this.onError)
+      .finally(() => {
+        this.setState({ loading: false });
       });
   };
 
@@ -42,7 +47,23 @@ export default class App extends Component<SearchPanelProps, StateType> {
     });
   };
 
+  onError = () => {
+    this.setState({
+      error: true,
+      loading: false,
+    });
+  };
+
+  makeError = () => {
+    this.setState({
+      heroesList: 'ooooops',
+    });
+  };
+
   render() {
+    const errorMessage = this.state.error ? <ErrorMessage /> : null;
+    const spinner = this.state.loading ? <Spinner /> : null;
+
     return (
       <div className="appContainer">
         <Header />
@@ -51,9 +72,15 @@ export default class App extends Component<SearchPanelProps, StateType> {
           <button className="searchPanel__btn" onClick={this.getSearchData}>
             Search
           </button>
+          <button className="searchPanel__btn" onClick={this.makeError}>
+            Throw error
+          </button>
         </div>
-
-        <HeroesList heroesList={this.state.heroesList} />
+        {spinner}
+        {errorMessage}
+        <ErrorBoundary>
+          <HeroesList heroesList={this.state.heroesList} />
+        </ErrorBoundary>
       </div>
     );
   }
