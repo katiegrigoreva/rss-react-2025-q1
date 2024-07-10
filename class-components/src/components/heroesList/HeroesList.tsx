@@ -1,57 +1,45 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
 import './heroesList.css';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
 export interface heroesListState {
-  heroesList: [heroData] | [];
+  heroesList: heroData[];
   loading: boolean;
   error: boolean;
 }
 
 type HeroesListProps = {
-  heroesList: [heroData] | [];
+  heroesList: heroData[];
 };
 
-class HeroesList extends Component<HeroesListProps, heroesListState> {
-  constructor(props: HeroesListProps) {
-    super(props);
-    this.state = {
-      heroesList: [],
-      loading: true,
-      error: false,
-    };
-  }
+const HeroesList = (props: HeroesListProps) => {
+  const [heroesList, setHeroesList] = useState<heroData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const apiConnector = new ApiConnector();
 
-  apiConnector = new ApiConnector();
+  useEffect(() => {
+    apiConnector.getAllHeroes().then(onListLoaded).catch(onError);
+  }, []);
 
-  componentDidMount() {
-    this.apiConnector.getAllHeroes().then(this.onListLoaded).catch(this.onError);
-  }
+  useEffect(() => {
+    onListLoaded(props.heroesList);
+  }, [props.heroesList]);
 
-  componentDidUpdate(prevProps: Readonly<HeroesListProps>): void {
-    if (this.props.heroesList !== prevProps.heroesList) {
-      this.onListLoaded(this.props.heroesList);
-    }
-  }
-
-  onListLoaded = (heroesList: [heroData] | []) => {
-    this.setState({
-      heroesList,
-      loading: false,
-    });
+  const onListLoaded = (newHeroesList: heroData[]) => {
+    setHeroesList(() => newHeroesList);
+    setLoading(() => false);
   };
 
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false,
-    });
+  const onError = () => {
+    setError(true);
+    setLoading(false);
   };
 
-  renderItems(heroesList: [heroData]) {
-    const items = heroesList.map((item) => {
+  function renderItems(arr: heroData[]) {
+    const items = arr.map((item) => {
       return (
         <li className="hero__item" key={item.name}>
           <img src={item.img} alt={item.name} />
@@ -63,21 +51,17 @@ class HeroesList extends Component<HeroesListProps, heroesListState> {
     return items;
   }
 
-  render() {
-    const { heroesList, loading, error } = this.state;
+  const items = heroesList.length ? renderItems(heroesList) : <h3>There is no hero with such name</h3>;
+  const spinner = loading ? <Spinner /> : null;
+  const content = loading ? null : items;
+  const errorMessage = error ? <ErrorMessage /> : null;
 
-    const items = heroesList.length ? this.renderItems(heroesList) : <h3>There is no hero with such name</h3>;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !loading ? items : null;
-    const errorMessage = error ? <ErrorMessage /> : null;
-
-    return (
-      <div className="hero__list">
-        {spinner}
-        {errorMessage}
-        {content}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="hero__list">
+      {spinner}
+      {errorMessage}
+      {content}
+    </div>
+  );
+};
 export default HeroesList;

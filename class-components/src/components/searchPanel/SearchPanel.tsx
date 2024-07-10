@@ -1,35 +1,25 @@
-import { ChangeEvent, Component } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './searchPanel.css';
-import ApiConnector from '../../api/ApiConnector';
 import { AppProps } from '../app/App';
 
-class SearchPanel extends Component<AppProps, { term: string }> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      term: '',
-    };
-  }
+const SearchPanel = (props: AppProps) => {
+  const [term, setTerm] = useState('');
 
-  apiConnector = new ApiConnector();
-
-  onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const term = e.target.value.trim().toLowerCase();
-    this.setState({ term });
-    this.props.onUpdateSearch(term);
+  const onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const termValue = e.target.value.trim().toLowerCase();
+    setTerm(termValue);
+    props.onUpdateSearch(termValue);
   };
 
-  render() {
-    return (
-      <input
-        type="text"
-        className="searchPanel__input"
-        placeholder="Search your superhero"
-        value={this.state.term}
-        onChange={this.onUpdateSearch}
-      />
-    );
-  }
-}
+  return (
+    <input
+      type="text"
+      className="searchPanel__input"
+      placeholder="Search your superhero"
+      value={term}
+      onChange={onUpdateSearch}
+    />
+  );
+};
 
 export default SearchPanel;

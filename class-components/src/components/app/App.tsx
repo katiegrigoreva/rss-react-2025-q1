@@ -1,16 +1,13 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Header from '../header/Header';
 import SearchPanel from '../searchPanel/SearchPanel';
 
 import './app.css';
-import HeroesList, { heroesListState } from '../heroesList/HeroesList';
+import HeroesList from '../heroesList/HeroesList';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
-type AppStateType = {
-  term: string;
-};
 export type AppProps = {
   onUpdateSearch: onUpdateSearchType;
 };
@@ -18,74 +15,55 @@ export type onUpdateSearchType = {
   (arg: string): void;
 };
 
-export default class App extends Component<AppProps, AppStateType & heroesListState> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      term: '',
-      heroesList: [],
-      loading: false,
-      error: false,
-    };
-  }
+const App = () => {
+  const [term, setTerm] = useState('');
+  const [heroesList, setHeroesList] = useState<heroData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  apiConnector = new ApiConnector();
+  const apiConnector = new ApiConnector();
 
-  onUpdateSearch = (term: string) => {
-    this.setState({ term });
+  const onUpdateSearch = (newTerm: string) => {
+    setTerm(newTerm);
   };
 
-  getSearchData = () => {
-    this.setState({ loading: true });
-    return this.apiConnector
-      .getSearchData(this.state.term)
-      .then(this.onUpdateHeroesList)
-      .catch(this.onError)
+  const getSearchData = () => {
+    setLoading(true);
+    return apiConnector
+      .getSearchData(term)
+      .then(onUpdateHeroesList)
+      .catch(onError)
       .finally(() => {
-        this.setState({ loading: false });
+        setLoading(false);
       });
   };
 
-  onUpdateHeroesList = (heroesList: [heroData]) => {
-    this.setState({
-      heroesList,
-    });
+  const onUpdateHeroesList = (newHeroesList: heroData[]) => {
+    setHeroesList(newHeroesList);
   };
 
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false,
-    });
+  const onError = () => {
+    setError(true);
+    setLoading(false);
   };
 
-  makeError = () => {
-    this.setState({
-      error: true,
-    });
-    throw new Error('Ooooops! An error occurred!');
-  };
+  const errorMessage = error ? <ErrorMessage /> : null;
+  const spinner = loading ? <Spinner /> : null;
 
-  render() {
-    const errorMessage = this.state.error ? <ErrorMessage /> : null;
-    const spinner = this.state.loading ? <Spinner /> : null;
-
-    return (
-      <div className="appContainer">
-        <Header />
-        <div className="searchPanel">
-          <SearchPanel onUpdateSearch={this.onUpdateSearch} />
-          <button className="searchPanel__btn" onClick={this.getSearchData}>
-            Search
-          </button>
-          <button className="searchPanel__btn" onClick={this.makeError}>
-            Throw error
-          </button>
-        </div>
-        {spinner}
-        {errorMessage}
-        <HeroesList heroesList={this.state.heroesList} />
+  return (
+    <div className="appContainer">
+      <Header />
+      <div className="searchPanel">
+        <SearchPanel onUpdateSearch={onUpdateSearch} />
+        <button className="searchPanel__btn" onClick={getSearchData}>
+          Search
+        </button>
       </div>
-    );
-  }
-}
+      {spinner}
+      {errorMessage}
+      <HeroesList heroesList={heroesList} />
+    </div>
+  );
+};
+
+export default App;
