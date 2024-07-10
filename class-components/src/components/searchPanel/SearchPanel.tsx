@@ -1,8 +1,14 @@
 import { ChangeEvent, useState } from 'react';
 import './searchPanel.css';
-import { AppProps } from '../app/App';
 
-const SearchPanel = (props: AppProps) => {
+export type SearchPanelProps = {
+  onUpdateSearch: onUpdateSearchType;
+};
+export type onUpdateSearchType = {
+  (arg: string): void;
+};
+
+const SearchPanel = (props: SearchPanelProps) => {
   const [term, setTerm] = useState('');
 
   const onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
