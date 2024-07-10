@@ -48,10 +48,10 @@ const HeroesList = (props: HeroesListProps) => {
         </li>
       );
     });
-    return items;
+    return items.length !== 0 ? items : <h3>There is no hero with such name</h3>;
   }
 
-  const items = heroesList.length ? renderItems(heroesList) : <h3>There is no hero with such name</h3>;
+  const items = renderItems(heroesList);
   const spinner = loading ? <Spinner /> : null;
   const content = loading ? null : items;
   const errorMessage = error ? <ErrorMessage /> : null;
