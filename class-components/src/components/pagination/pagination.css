@@ -1,0 +1,27 @@
+.pagination {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  list-style: none;
+}
+
+.pagination__item {
+  padding: 2px;
+  text-align: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+}
+
+.pagination__item:hover {
+  background-color: rgb(128,128,128,0.1);
+}
+
+.pagination__item:active {
+  background-color: rgb(128,128,128,0.1);
+}
+
+.pagination__link {
+  text-decoration: none;
+}

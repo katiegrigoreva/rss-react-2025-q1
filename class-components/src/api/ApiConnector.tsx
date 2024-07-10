@@ -30,7 +30,7 @@ class ApiConnector {
   };
 
   getAllHeroes = async () => {
-    const res = await this.getData(`${this._apiBase}limit=12&offset=80&${this._apiKey}`);
+    const res = await this.getData(`${this._apiBase}limit=100&offset=80&${this._apiKey}`);
     return res.data.results.map(this.transformHeroData);
   };
 
@@ -39,7 +39,7 @@ class ApiConnector {
       return this.getAllHeroes();
     }
 
-    const res = await this.getData(`${this._apiBase}nameStartsWith=${searchValue}&limit=12&${this._apiKey}`);
+    const res = await this.getData(`${this._apiBase}nameStartsWith=${searchValue}&limit=100&${this._apiKey}`);
     return res.data.results.map(this.transformHeroData);
   };
 }
