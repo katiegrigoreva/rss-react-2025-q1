@@ -1,4 +1,5 @@
 export interface heroData {
+  id: number;
   name: string;
   description: string;
   thumbnail?: {
@@ -10,7 +11,7 @@ export interface heroData {
 
 class ApiConnector {
   _apiKey = 'apikey=ede7c87b314e4253d2fa3cc4c3e4b962';
-  _apiBase = 'https://gateway.marvel.com:443/v1/public/characters?';
+  _apiBase = 'https://gateway.marvel.com:443/v1/public/characters';
 
   getData = async (url: string) => {
     const res = await fetch(url);
@@ -23,6 +24,7 @@ class ApiConnector {
 
   transformHeroData = (hero: heroData) => {
     return {
+      id: hero.id,
       name: hero.name,
       description: hero.description ? hero.description : 'Description is not found',
       img: `${hero.thumbnail?.path}.${hero.thumbnail?.extension}`,
@@ -30,8 +32,13 @@ class ApiConnector {
   };
 
   getAllHeroes = async () => {
-    const res = await this.getData(`${this._apiBase}limit=100&offset=80&${this._apiKey}`);
+    const res = await this.getData(`${this._apiBase}?limit=10&offset=80&${this._apiKey}`);
     return res.data.results.map(this.transformHeroData);
+  };
+
+  getHeroInfo = async (id: number) => {
+    const res = await this.getData(`${this._apiBase}/${id}?${this._apiKey}`);
+    return this.transformHeroData(res.data.results[0]);
   };
 
   getSearchData = async (searchValue: string) => {

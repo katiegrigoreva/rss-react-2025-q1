@@ -4,6 +4,7 @@ import './heroesList.css';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Pagination from '../pagination/Pagination';
+import HeroInfo from '../heroInfo/HeroInfo';
 
 export interface heroesListState {
   heroesList: heroData[];
@@ -21,6 +22,8 @@ const HeroesList = (props: HeroesListProps) => {
   const [error, setError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [heroesPerPage] = useState(8);
+  const [showInfoComponent, setShowInfoComponent] = useState(false);
+  const [heroId, setHeroId] = useState(0);
   const apiConnector = new ApiConnector();
 
   const lastHeroIndex = currentPage * heroesPerPage;
@@ -33,7 +36,13 @@ const HeroesList = (props: HeroesListProps) => {
   const onChangePage = (pageNumber: number) => setCurrentPage(pageNumber);
 
   useEffect(() => {
-    apiConnector.getAllHeroes().then(onListLoaded).catch(onError);
+    apiConnector
+      .getAllHeroes()
+      .then(onListLoaded)
+      .catch(onError)
+      .finally(() => {
+        setLoading(() => false);
+      });
   }, []);
 
   useEffect(() => {
@@ -42,18 +51,23 @@ const HeroesList = (props: HeroesListProps) => {
 
   const onListLoaded = (newHeroesList: heroData[]) => {
     setHeroesList(() => newHeroesList);
-    setLoading(() => false);
   };
 
   const onError = () => {
     setError(true);
-    setLoading(false);
   };
 
   function renderItems(arr: heroData[]) {
     const items = arr.map((item) => {
       return (
-        <li className="hero__item" key={item.name}>
+        <li
+          className="hero__item"
+          key={item.name}
+          onClick={() => {
+            setHeroId(() => item.id);
+            setShowInfoComponent(!showInfoComponent);
+          }}
+        >
           <img src={item.img} alt={item.name} />
           <div className="hero__name">{item.name}</div>
           <div className="hero__descr">{item.description}</div>
@@ -67,14 +81,16 @@ const HeroesList = (props: HeroesListProps) => {
   const spinner = loading ? <Spinner /> : null;
   const content = loading ? null : items;
   const errorMessage = error ? <ErrorMessage /> : null;
-
+  const infoComponent = showInfoComponent ? <HeroInfo heroId={heroId} /> : null;
+  console.log(showInfoComponent);
   return (
     <>
-      <div className="hero__list">
+      <section className="hero">
         {spinner}
         {errorMessage}
-        {content}
-      </div>
+        <div className="hero__list">{content}</div>
+        {infoComponent}
+      </section>
       <Pagination heroesPerPage={heroesPerPage} totalHeroes={heroesList.length} onChangePage={onChangePage} />
     </>
   );

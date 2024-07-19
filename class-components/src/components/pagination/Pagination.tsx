@@ -15,16 +15,15 @@ const Pagination = ({ heroesPerPage, totalHeroes, onChangePage }: paginationProp
 
   return (
     <ul className="pagination">
-      {pageNumbers.map((page) => (
-        <li className="pagination__item" key={page}>
+      {pageNumbers.map((pageNum) => (
+        <li className="pagination__item" key={pageNum}>
           <a
-            href="#"
             className="pagination__link"
             onClick={() => {
-              onChangePage(page);
+              onChangePage(pageNum);
             }}
           >
-            {page}
+            {pageNum}
           </a>
         </li>
       ))}

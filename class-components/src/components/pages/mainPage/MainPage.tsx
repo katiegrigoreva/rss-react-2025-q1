@@ -34,7 +34,6 @@ const Main = () => {
 
   const onError = () => {
     setError(true);
-    setLoading(false);
   };
 
   const errorMessage = error ? <ErrorMessage /> : null;
