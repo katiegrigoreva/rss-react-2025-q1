@@ -1,3 +1,5 @@
+import { apiConstants } from './apiConstants';
+
 export interface heroData {
   id: number;
   name: string;
@@ -10,9 +12,6 @@ export interface heroData {
 }
 
 class ApiConnector {
-  _apiKey = 'apikey=ede7c87b314e4253d2fa3cc4c3e4b962';
-  _apiBase = 'https://gateway.marvel.com:443/v1/public/characters';
-
   getData = async (url: string) => {
     const res = await fetch(url);
 
@@ -31,23 +30,31 @@ class ApiConnector {
     };
   };
 
-  getAllHeroes = async () => {
-    const res = await this.getData(`${this._apiBase}?limit=10&offset=80&${this._apiKey}`);
-    return res.data.results.map(this.transformHeroData);
+  getAllHeroes = async (query: string) => {
+    const res = await this.getData(`${apiConstants._apiBase}${query}&${apiConstants._apiKey}`);
+    return {
+      heroesList: res.data.results.map(this.transformHeroData),
+      totalHeroes: res.data.total,
+    };
   };
 
   getHeroInfo = async (id: number) => {
-    const res = await this.getData(`${this._apiBase}/${id}?${this._apiKey}`);
+    const res = await this.getData(`${apiConstants._apiBase}/${id}?${apiConstants._apiKey}`);
     return this.transformHeroData(res.data.results[0]);
   };
 
-  getSearchData = async (searchValue: string) => {
+  getSearchData = async (searchValue: string, query: string) => {
     if (searchValue.length === 0) {
-      return this.getAllHeroes();
+      return this.getAllHeroes(apiConstants._baseQuery);
     }
 
-    const res = await this.getData(`${this._apiBase}nameStartsWith=${searchValue}&limit=100&${this._apiKey}`);
-    return res.data.results.map(this.transformHeroData);
+    const res = await this.getData(
+      `${apiConstants._apiBase}nameStartsWith=${searchValue}&${query}&${apiConstants._apiKey}`
+    );
+    return {
+      heroesList: res.data.results.map(this.transformHeroData),
+      totalHeroes: res.data.total,
+    };
   };
 }
 

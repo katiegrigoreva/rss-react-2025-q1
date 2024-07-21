@@ -1,27 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ApiConnector, { heroData } from '../../../api/ApiConnector';
 import ErrorMessage from '../../errorMessage/ErrorMessage';
 import HeroesList from '../../heroesList/HeroesList';
 import SearchPanel from '../../searchPanel/SearchPanel';
 import Spinner from '../../spinner/Spinner';
+import { useNavigate } from 'react-router';
+import { apiConstants } from '../../../api/apiConstants';
 
 const Main = () => {
   const [term, setTerm] = useState('');
   const [heroesList, setHeroesList] = useState<heroData[]>([]);
+  const [totalHeroes, setTotalHeroes] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
+  const navigate = useNavigate();
   const apiConnector = new ApiConnector();
 
   const onUpdateSearch = (newTerm: string) => {
     setTerm(newTerm);
+    localStorage.setItem('searchTerm', newTerm);
   };
 
+  useEffect(() => {
+    localStorage.clear();
+    navigate('/');
+  }, []);
+
   const getSearchData = () => {
+    navigate(`/?${apiConstants._baseQuery}`);
     setLoading(true);
     return apiConnector
-      .getSearchData(term)
-      .then(onUpdateHeroesList)
+      .getSearchData(term, apiConstants._baseQuery)
+      .then((data) => {
+        onUpdateHeroesList(data.heroesList);
+        setTotalHeroes(data.heroesTotal);
+      })
       .catch(onError)
       .finally(() => {
         setLoading(false);
@@ -49,7 +62,7 @@ const Main = () => {
       </div>
       {spinner}
       {errorMessage}
-      <HeroesList heroesList={heroesList} />
+      <HeroesList heroesList={heroesList} totalHeroes={totalHeroes} />
     </>
   );
 };
