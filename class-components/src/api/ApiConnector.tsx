@@ -31,7 +31,7 @@ class ApiConnector {
   };
 
   getAllHeroes = async (query: string) => {
-    const res = await this.getData(`${apiConstants._apiBase}${query}&${apiConstants._apiKey}`);
+    const res = await this.getData(`${apiConstants._apiBase}?${query}&${apiConstants._apiKey}`);
     return {
       heroesList: res.data.results.map(this.transformHeroData),
       totalHeroes: res.data.total,
@@ -49,7 +49,7 @@ class ApiConnector {
     }
 
     const res = await this.getData(
-      `${apiConstants._apiBase}nameStartsWith=${searchValue}&${query}&${apiConstants._apiKey}`
+      `${apiConstants._apiBase}?nameStartsWith=${searchValue}&${query}&${apiConstants._apiKey}`
     );
     return {
       heroesList: res.data.results.map(this.transformHeroData),

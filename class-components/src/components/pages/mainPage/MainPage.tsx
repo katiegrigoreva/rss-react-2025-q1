@@ -33,7 +33,7 @@ const Main = () => {
       .getSearchData(term, apiConstants._baseQuery)
       .then((data) => {
         onUpdateHeroesList(data.heroesList);
-        setTotalHeroes(data.heroesTotal);
+        setTotalHeroes(data.totalHeroes);
       })
       .catch(onError)
       .finally(() => {
