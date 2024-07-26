@@ -4,8 +4,8 @@ import './heroesList.css';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Pagination from '../pagination/Pagination';
-import HeroInfo from '../heroInfo/HeroInfo';
 import { apiConstants } from '../../api/apiConstants';
+import { Outlet, useNavigate } from 'react-router';
 
 type HeroesListProps = {
   heroesList: heroData[];
@@ -17,15 +17,13 @@ const HeroesList = (props: HeroesListProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [heroesPerPage] = useState(8);
-  const [showInfoComponent, setShowInfoComponent] = useState(false);
-  const [heroId, setHeroId] = useState(0);
   const [totalHeroes, setTotalHeroes] = useState(0);
+  const navigate = useNavigate();
   const maxTotalHeroes: number = 100;
   const apiConnector = new ApiConnector();
 
   useEffect(() => {
-    console.log('render');
-    onChangePage(apiConstants._baseQuery);
+    getHeroesList(apiConstants._baseQuery);
   }, []);
 
   useEffect(() => {
@@ -33,9 +31,7 @@ const HeroesList = (props: HeroesListProps) => {
     setTotalHeroes(0);
   }, [props.heroesList]);
 
-  const onChangePage = (query: string) => {
-    console.log('onchangepage');
-
+  const getHeroesList = (query: string) => {
     setLoading(() => true);
 
     if (localStorage.getItem('searchTerm')) {
@@ -80,8 +76,7 @@ const HeroesList = (props: HeroesListProps) => {
           className="hero__item"
           key={item.name}
           onClick={() => {
-            setHeroId(() => item.id);
-            setShowInfoComponent(!showInfoComponent);
+            navigate(`details/id:${item.id}`);
           }}
         >
           <img src={item.img} alt={item.name} />
@@ -97,7 +92,6 @@ const HeroesList = (props: HeroesListProps) => {
   const spinner = loading ? <Spinner /> : null;
   const content = loading ? null : items;
   const errorMessage = error ? <ErrorMessage /> : null;
-  const infoComponent = showInfoComponent ? <HeroInfo heroId={heroId} /> : null;
 
   return (
     <>
@@ -105,12 +99,12 @@ const HeroesList = (props: HeroesListProps) => {
         {spinner}
         {errorMessage}
         <div className="hero__list">{content}</div>
-        {infoComponent}
+        <Outlet />
       </section>
       <Pagination
         heroesPerPage={heroesPerPage}
         totalHeroes={totalHeroes ? totalHeroes : props.totalHeroes}
-        onChangePage={() => onChangePage(location.search.slice(1))}
+        onChangePage={() => getHeroesList(location.search.slice(1))}
       />
     </>
   );

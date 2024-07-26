@@ -38,7 +38,7 @@ class ApiConnector {
     };
   };
 
-  getHeroInfo = async (id: number) => {
+  getHeroInfo = async (id: string) => {
     const res = await this.getData(`${apiConstants._apiBase}/${id}?${apiConstants._apiKey}`);
     return this.transformHeroData(res.data.results[0]);
   };
