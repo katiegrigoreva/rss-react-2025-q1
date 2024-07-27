@@ -6,9 +6,10 @@ import SearchPanel from '../../searchPanel/SearchPanel';
 import Spinner from '../../spinner/Spinner';
 import { useNavigate } from 'react-router';
 import { apiConstants } from '../../../api/apiConstants';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 const Main = () => {
-  const [term, setTerm] = useState('');
+  const [term, setTerm] = useLocalStorage('searchTerm', '');
   const [heroesList, setHeroesList] = useState<heroData[]>([]);
   const [totalHeroes, setTotalHeroes] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,6 @@ const Main = () => {
 
   const onUpdateSearch = (newTerm: string) => {
     setTerm(newTerm);
-    localStorage.setItem('searchTerm', newTerm);
   };
 
   useEffect(() => {

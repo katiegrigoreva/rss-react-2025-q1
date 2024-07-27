@@ -6,6 +6,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import Pagination from '../pagination/Pagination';
 import { apiConstants } from '../../api/apiConstants';
 import { Outlet, useNavigate } from 'react-router';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 type HeroesListProps = {
   heroesList: heroData[];
@@ -18,6 +19,7 @@ const HeroesList = (props: HeroesListProps) => {
   const [error, setError] = useState(false);
   const [heroesPerPage] = useState(8);
   const [totalHeroes, setTotalHeroes] = useState(0);
+  const [localStorageValue] = useLocalStorage('searchTerm', '');
   const navigate = useNavigate();
   const maxTotalHeroes: number = 100;
   const apiConnector = new ApiConnector();
@@ -34,11 +36,11 @@ const HeroesList = (props: HeroesListProps) => {
   const getHeroesList = (query: string) => {
     setLoading(() => true);
 
-    if (localStorage.getItem('searchTerm')) {
-      const term = localStorage.getItem('searchTerm');
-      const termToUse = term ? term : '';
+    if (localStorageValue) {
+      /* const term = localStorage.getItem('searchTerm');
+      const termToUse = term ? term : ''; */
       apiConnector
-        .getSearchData(termToUse, query)
+        .getSearchData(localStorageValue, query)
         .then((data) => {
           onListLoaded(data.heroesList);
           setTotalHeroes(data.totalHeroes);
