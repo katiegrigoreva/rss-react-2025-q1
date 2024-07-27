@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
 import './heroesList.css';
 import Spinner from '../spinner/Spinner';
@@ -7,6 +7,7 @@ import Pagination from '../pagination/Pagination';
 import { apiConstants } from '../../api/apiConstants';
 import { Outlet, useNavigate } from 'react-router';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { ThemeContext } from '../../context/ThemeContext';
 
 type HeroesListProps = {
   heroesList: heroData[];
@@ -22,6 +23,7 @@ const HeroesList = (props: HeroesListProps) => {
   const [localStorageValue] = useLocalStorage('searchTerm', '');
   const navigate = useNavigate();
   const maxTotalHeroes: number = 100;
+  const context = useContext(ThemeContext);
   const apiConnector = new ApiConnector();
 
   useEffect(() => {
@@ -37,8 +39,6 @@ const HeroesList = (props: HeroesListProps) => {
     setLoading(() => true);
 
     if (localStorageValue) {
-      /* const term = localStorage.getItem('searchTerm');
-      const termToUse = term ? term : ''; */
       apiConnector
         .getSearchData(localStorageValue, query)
         .then((data) => {
@@ -75,7 +75,7 @@ const HeroesList = (props: HeroesListProps) => {
     const items = arr.map((item) => {
       return (
         <li
-          className="hero__item"
+          className={`hero__item hero__item_${context.theme}`}
           key={item.name}
           onClick={() => {
             navigate(`details/id:${item.id}`);

@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import './heroInfo.css';
 import ApiConnector, { heroData } from '../../api/ApiConnector';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 import { useLocation, useNavigate } from 'react-router';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const HeroInfo = () => {
   const [heroInfo, setHeroInfo] = useState<heroData>();
@@ -12,6 +13,7 @@ const HeroInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const myRef = useRef(0);
+  const context = useContext(ThemeContext);
   const apiConnector = new ApiConnector();
 
   const indx = location.pathname.split('').findIndex((el) => el === ':');
@@ -46,10 +48,10 @@ const HeroInfo = () => {
   const spinner = loading ? <Spinner /> : null;
 
   return (
-    <div className="heroInfo">
+    <div className={`heroInfo heroInfo_${context.theme}`}>
       {spinner}
       {errorMsg}
-      <img className="heroInfo__close" src="../../../assets/close.png" alt="close" onClick={onClose} />
+      <img className="heroInfo__close" src="../../../assets/close-red.png" alt="close" onClick={onClose} />
       <img className="heroInfo__img" src={heroInfo?.img} alt={heroInfo?.name} />
       <div>
         <div className="heroInfo__name">

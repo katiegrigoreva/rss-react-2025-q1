@@ -7,6 +7,8 @@ import Spinner from '../../spinner/Spinner';
 import { useNavigate } from 'react-router';
 import { apiConstants } from '../../../api/apiConstants';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import { ThemeSelector } from '../../themeSelector/ThemeSelector';
+import './mainPage.css';
 
 const Main = () => {
   const [term, setTerm] = useLocalStorage('searchTerm', '');
@@ -54,12 +56,15 @@ const Main = () => {
 
   return (
     <>
-      <div className="searchPanel">
-        <SearchPanel onUpdateSearch={onUpdateSearch} />
-        <button className="searchPanel__btn" onClick={getSearchData}>
-          Search
-        </button>
-      </div>
+      <section className="controlPanel">
+        <div className="searchPanel">
+          <SearchPanel onUpdateSearch={onUpdateSearch} />
+          <button className="searchPanel__btn" onClick={getSearchData}>
+            Search
+          </button>
+        </div>
+        <ThemeSelector />
+      </section>
       {spinner}
       {errorMessage}
       <HeroesList heroesList={heroesList} totalHeroes={totalHeroes} />

@@ -21,6 +21,11 @@
   overflow: hidden;
   transition: all 0.3s;
 }
+
+.hero__item_dark {
+  border: 0.5px solid rgb(55, 55, 55);
+}
+
 .hero__item:hover {
   transition: all 0.3s;
   scale: 1.05;
