@@ -1,16 +1,17 @@
-import { heroData } from '../api/ApiConnector';
+import { heroData } from '../api/apiSlice';
 import { HeroesListProps } from '../components/heroesList/HeroesList';
+
+export const transformHeroData = (hero: heroData) => {
+  return {
+    id: hero.id,
+    name: hero.name,
+    description: hero.description ? hero.description : 'Description is not found',
+    img: `${hero.thumbnail?.path}.${hero.thumbnail?.extension}`,
+  };
+};
 
 export const getTransformedData = (heroesListData: HeroesListProps | undefined) => {
   const maxTotalHeroes: number = 100;
-  const transformHeroData = (hero: heroData) => {
-    return {
-      id: hero.id,
-      name: hero.name,
-      description: hero.description ? hero.description : 'Description is not found',
-      img: `${hero.thumbnail?.path}.${hero.thumbnail?.extension}`,
-    };
-  };
 
   return {
     heroesList: heroesListData?.heroesList ? heroesListData.heroesList.map(transformHeroData) : [],

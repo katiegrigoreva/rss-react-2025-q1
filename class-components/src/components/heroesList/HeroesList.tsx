@@ -1,12 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
-import { heroData } from '../../api/ApiConnector';
 import './heroesList.css';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Pagination from '../pagination/Pagination';
 import { Outlet, useNavigate } from 'react-router';
 import { ThemeContext } from '../../context/ThemeContext';
-import { useGetAllHeroesQuery } from '../../api/apiSlice';
+import { useGetAllHeroesQuery, heroData } from '../../api/apiSlice';
 import { getTransformedData } from '../../helpers/getTransformedData';
 import { apiConstants } from '../../api/apiConstants';
 
@@ -22,11 +21,12 @@ const HeroesList = (props: HeroesListProps) => {
   const { data, isLoading, isFetching, isError } = useGetAllHeroesQuery(query);
 
   useEffect(() => {
+    localStorage.removeItem('searchTerm');
     navigate('/');
   }, []);
 
   const changePage = (searchQuery: string) => {
-    if (localStorage.getItem('searchTerm') === '') {
+    if (localStorage.getItem('searchTerm') === '' || localStorage.getItem('searchTerm') === null) {
       setQuery(searchQuery);
     }
   };

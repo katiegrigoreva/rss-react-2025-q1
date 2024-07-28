@@ -1,12 +1,28 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiConstants } from './apiConstants';
 import { HeroesListProps } from '../components/heroesList/HeroesList';
+import { transformHeroData } from '../helpers/getTransformedData';
 
 export type ApiResponse = {
   data: {
-    results: [];
+    results: heroData[];
     total: number;
   };
+};
+
+export type heroData = {
+  id: number;
+  name: string;
+  description: string;
+  thumbnail?: {
+    path: string;
+    extension: string;
+  };
+  img?: string;
+};
+
+type HeroInfo = {
+  heroInfo: heroData;
 };
 
 export const marvelApi = createApi({
@@ -30,7 +46,13 @@ export const marvelApi = createApi({
         totalHeroes: response.data.total,
       }),
     }),
+    getHeroInfo: builder.query({
+      query: (id) => `${id}?${apiConstants._apiKey}`,
+      transformResponse: (response: ApiResponse): HeroInfo => ({
+        heroInfo: transformHeroData(response.data.results[0]),
+      }),
+    }),
   }),
 });
 
-export const { useGetAllHeroesQuery, useGetSearchHeroesQuery } = marvelApi;
+export const { useGetHeroInfoQuery, useGetAllHeroesQuery, useGetSearchHeroesQuery } = marvelApi;
