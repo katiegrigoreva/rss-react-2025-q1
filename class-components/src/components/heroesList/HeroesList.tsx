@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, BaseSyntheticEvent } from 'react';
 import './heroesList.css';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -8,6 +8,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { useGetAllHeroesQuery, heroData } from '../../api/apiSlice';
 import { getTransformedData } from '../../helpers/getTransformedData';
 import { apiConstants } from '../../api/apiConstants';
+import { Flyout } from '../flyout/Flyout';
 
 export type HeroesListProps = {
   heroesList: heroData[];
@@ -30,6 +31,8 @@ const HeroesList = (props: HeroesListProps) => {
       setQuery(searchQuery);
     }
   };
+  const [isFlyout, setIsFlyout] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<number>(0);
 
   function renderItems(arr: heroData[]) {
     const items = arr.map((item) => {
@@ -37,10 +40,25 @@ const HeroesList = (props: HeroesListProps) => {
         <li
           className={`hero__item hero__item_${context.theme}`}
           key={item.name}
-          onClick={() => {
-            navigate(`details/id:${item.id}`);
+          onClick={(event: BaseSyntheticEvent) => {
+            if (event.target.className !== 'checkbox') {
+              navigate(`details/id:${item.id}`);
+            }
           }}
         >
+          <input
+            type="checkbox"
+            className="checkbox"
+            name="tabs"
+            onClick={(e: BaseSyntheticEvent) => {
+              if (e.target.checked) {
+                setIsFlyout(true);
+                setSelectedItems(() => selectedItems + 1);
+              } else {
+                setSelectedItems(() => selectedItems - 1);
+              }
+            }}
+          />
           <img src={item.img} alt={item.name} />
           <div className="hero__name">{item.name}</div>
           <div className="hero__descr">{item.description}</div>
@@ -54,6 +72,7 @@ const HeroesList = (props: HeroesListProps) => {
   const spinner = isLoading || isFetching ? <Spinner /> : null;
   const content = isLoading || isFetching ? null : items;
   const errorMessage = isError ? <ErrorMessage /> : null;
+  const flyout = isFlyout ? <Flyout selectedItems={selectedItems} /> : null;
 
   return (
     <>
@@ -67,6 +86,7 @@ const HeroesList = (props: HeroesListProps) => {
         totalHeroes={props.totalHeroes ? props.totalHeroes : getTransformedData(data).totalHeroes}
         onChangePage={changePage}
       />
+      {flyout}
     </>
   );
 };

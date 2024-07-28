@@ -12,6 +12,7 @@
  
 }
 .hero__item {
+  position: relative;
   width: 200px;
   height: 318px;
   background-color: black;
@@ -46,4 +47,10 @@
 .hero__descr {
   font-size: 10px;
   color: white;
+}
+.checkbox {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: red;
 }
