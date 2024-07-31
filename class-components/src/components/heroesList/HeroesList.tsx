@@ -22,6 +22,7 @@ const HeroesList = (props: HeroesListProps) => {
   const { data, isLoading, isFetching, isError } = useGetAllHeroesQuery(query);
 
   useEffect(() => {
+    if (selectedItems === 0) setIsFlyout(false);
     localStorage.removeItem('searchTerm');
     navigate('/');
   }, []);
