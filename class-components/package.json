@@ -31,6 +31,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-redux": "^7.1.33",
+    "@types/redux-mock-store": "^1.0.6",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -47,6 +48,7 @@
     "jsdom": "^24.1.1",
     "lint-staged": "^15.2.2",
     "prettier": "^3.3.2",
+    "redux-mock-store": "^1.5.4",
     "typescript": "^5.5.3",
     "vite": "^5.1.6",
     "vite-svg-loader": "^5.1.0"

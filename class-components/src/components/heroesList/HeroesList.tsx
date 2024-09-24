@@ -71,7 +71,7 @@ const HeroesList = (props: HeroesListProps) => {
 
   const items = renderItems(props.heroesList.length ? props.heroesList : getTransformedData(data).heroesList);
   const spinner = isLoading || isFetching ? <Spinner /> : null;
-  const content = isLoading || isFetching ? null : items;
+  const content = /* isLoading || isFetching ? null :  */ items;
   const errorMessage = isError ? <ErrorMessage /> : null;
   const flyout = isFlyout ? <Flyout selectedItems={selectedItems} /> : null;
 
