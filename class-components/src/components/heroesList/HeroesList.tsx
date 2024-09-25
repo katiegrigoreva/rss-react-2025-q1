@@ -1,14 +1,14 @@
-import { useState, useContext, useEffect, BaseSyntheticEvent } from 'react';
+import { useState, useEffect, BaseSyntheticEvent } from 'react';
 import './heroesList.css';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Pagination from '../pagination/Pagination';
 import { Outlet, useNavigate } from 'react-router';
-import { ThemeContext } from '../../context/ThemeContext';
 import { useGetAllHeroesQuery, heroData } from '../../api/apiSlice';
 import { getTransformedData } from '../../helpers/getTransformedData';
 import { apiConstants } from '../../api/apiConstants';
 import { Flyout } from '../flyout/Flyout';
+import HeroesListItem from './HeroesListItem';
 
 export type HeroesListProps = {
   heroesList: heroData[];
@@ -18,8 +18,8 @@ export type HeroesListProps = {
 const HeroesList = (props: HeroesListProps) => {
   const [query, setQuery] = useState(apiConstants._baseQuery);
   const navigate = useNavigate();
-  const context = useContext(ThemeContext);
-  const { data, isLoading, isFetching, isError } = useGetAllHeroesQuery(query);
+  /*   const context = useContext(ThemeContext);
+   */ const { data, isLoading, isFetching, isError } = useGetAllHeroesQuery(query);
 
   useEffect(() => {
     if (selectedItems === 0) setIsFlyout(false);
@@ -35,43 +35,37 @@ const HeroesList = (props: HeroesListProps) => {
   const [isFlyout, setIsFlyout] = useState(false);
   const [selectedItems, setSelectedItems] = useState<number>(0);
 
+  const onCardClickHandle = (event: BaseSyntheticEvent, item: heroData) => {
+    if (event.target.className !== 'checkbox') {
+      navigate(`details/id:${item.id}`);
+    }
+  };
+  const onCheckboxClickHandle = (e: BaseSyntheticEvent) => {
+    if (e.target.checked) {
+      setIsFlyout(true);
+      setSelectedItems(() => selectedItems + 1);
+    } else {
+      setSelectedItems(() => selectedItems - 1);
+    }
+  };
+
   function renderItems(arr: heroData[]) {
     const items = arr.map((item) => {
       return (
-        <li
-          className={`hero__item hero__item_${context.theme}`}
+        <HeroesListItem
           key={item.name}
-          onClick={(event: BaseSyntheticEvent) => {
-            if (event.target.className !== 'checkbox') {
-              navigate(`details/id:${item.id}`);
-            }
-          }}
-        >
-          <input
-            type="checkbox"
-            className="checkbox"
-            name="tabs"
-            onClick={(e: BaseSyntheticEvent) => {
-              if (e.target.checked) {
-                setIsFlyout(true);
-                setSelectedItems(() => selectedItems + 1);
-              } else {
-                setSelectedItems(() => selectedItems - 1);
-              }
-            }}
-          />
-          <img src={item.img} alt={item.name} />
-          <div className="hero__name">{item.name}</div>
-          <div className="hero__descr">{item.description}</div>
-        </li>
+          itemInfo={item}
+          onCardClick={(e: BaseSyntheticEvent) => onCardClickHandle(e, item)}
+          onCheckboxClick={(e: BaseSyntheticEvent) => onCheckboxClickHandle(e)}
+        ></HeroesListItem>
       );
     });
-    return items.length !== 0 ? items : <h3>There is no hero with such name</h3>;
+    return items;
   }
 
   const items = renderItems(props.heroesList.length ? props.heroesList : getTransformedData(data).heroesList);
   const spinner = isLoading || isFetching ? <Spinner /> : null;
-  const content = /* isLoading || isFetching ? null :  */ items;
+  const content = items.length !== 0 ? items : <h3>No heroes found</h3>;
   const errorMessage = isError ? <ErrorMessage /> : null;
   const flyout = isFlyout ? <Flyout selectedItems={selectedItems} /> : null;
 
