@@ -59,21 +59,20 @@ describe('Test heroesList component', () => {
   });
 
   it('opens a detailed card component when clicking on a card', () => {
-    const onItemClick = vi.fn();
-    const onCheckBoxClick = vi.fn();
+    const mockFn = vi.fn();
     render(
       <BrowserRouter>
         <Provider store={store}>
           <HeroesListItem
             key={mockHeroData[0].name}
             itemInfo={mockHeroData[0]}
-            onCardClick={onItemClick}
-            onCheckboxClick={onCheckBoxClick}
+            onCardClick={mockFn}
+            onCheckboxClick={mockFn}
           ></HeroesListItem>
         </Provider>
       </BrowserRouter>
     );
     fireEvent.click(screen.getByText('mockHero1'));
-    expect(onItemClick).toHaveBeenCalled();
+    expect(mockFn).toHaveBeenCalledTimes(1);
   });
 });
