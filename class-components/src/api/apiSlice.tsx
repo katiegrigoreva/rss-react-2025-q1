@@ -21,7 +21,7 @@ export type heroData = {
   img?: string;
 };
 
-type HeroInfo = {
+export type heroInfo = {
   heroInfo: heroData;
 };
 
@@ -48,7 +48,7 @@ export const marvelApi = createApi({
     }),
     getHeroInfo: builder.query({
       query: (id) => `${id}?${apiConstants._apiKey}`,
-      transformResponse: (response: ApiResponse): HeroInfo => ({
+      transformResponse: (response: ApiResponse): heroInfo => ({
         heroInfo: transformHeroData(response.data.results[0]),
       }),
     }),
