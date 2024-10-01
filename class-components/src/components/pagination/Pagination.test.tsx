@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import Pagination from './Pagination';
@@ -8,10 +8,9 @@ describe('Pagination component', () => {
   it('updates URL query parameter when page changes', () => {
     const history = createMemoryHistory();
     const mockHeroes = 30;
-    const mockChangePage = vi.fn();
     render(
       <Router location={history.location} navigator={history}>
-        <Pagination totalHeroes={mockHeroes} onChangePage={mockChangePage} />
+        <Pagination totalHeroes={mockHeroes} />
       </Router>
     );
     const pageThree = screen.getByText('3');
