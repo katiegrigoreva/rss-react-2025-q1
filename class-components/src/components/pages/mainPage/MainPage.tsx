@@ -9,15 +9,17 @@ import Spinner from '../../spinner/Spinner';
 import { getTransformedData } from '../../../helpers/getTransformedData';
 import { apiConstants } from '../../../api/apiConstants';
 import { useLocation, useNavigate } from 'react-router';
+import Pagination from '../../pagination/Pagination';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 const Main = () => {
-  const [term, setTerm] = useState<string>();
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
   const [query, setQuery] = useState<string>(apiConstants._baseQuery);
-  const [isSearch, setIsSearch] = useState(false);
+  const [isSearch, setIsSearch] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const { data, isLoading, isFetching, isError } = useGetSearchHeroesQuery(
-    { searchValue: term, query: query.slice(1) },
+    { searchValue: searchTerm, query: query.slice(1) },
     {
       skip: isSearch === false,
       refetchOnMountOrArgChange: true,
@@ -26,11 +28,11 @@ const Main = () => {
 
   useEffect(() => {
     setQuery(location.search.length ? location.search : apiConstants._baseQuery);
-  }, [location]);
+  }, [location.search]);
 
   const onUpdateSearch = (newTerm: string) => {
     setIsSearch(false);
-    setTerm(newTerm);
+    setSearchTerm(newTerm);
   };
 
   const errorMessage = isError ? <ErrorMessage /> : null;
@@ -56,6 +58,7 @@ const Main = () => {
       {spinner}
       {errorMessage}
       <HeroesList heroesList={getTransformedData(data).heroesList} totalHeroes={getTransformedData(data).totalHeroes} />
+      <Pagination totalHeroes={getTransformedData(data).totalHeroes} />
     </>
   );
 };

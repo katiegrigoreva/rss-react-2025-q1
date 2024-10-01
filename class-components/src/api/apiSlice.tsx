@@ -29,13 +29,6 @@ export const marvelApi = createApi({
   reducerPath: 'marvelApi',
   baseQuery: fetchBaseQuery({ baseUrl: apiConstants._apiBase }),
   endpoints: (builder) => ({
-    getAllHeroes: builder.query({
-      query: (query = apiConstants._baseQuery) => `${query}&${apiConstants._apiKey}`,
-      transformResponse: (response: ApiResponse): HeroesListProps => ({
-        heroesList: response.data.results,
-        totalHeroes: response.data.total,
-      }),
-    }),
     getSearchHeroes: builder.query({
       query: ({ searchValue, query = apiConstants._baseQuery }) =>
         searchValue === ''
@@ -55,4 +48,4 @@ export const marvelApi = createApi({
   }),
 });
 
-export const { useGetHeroInfoQuery, useGetAllHeroesQuery, useGetSearchHeroesQuery } = marvelApi;
+export const { useGetHeroInfoQuery, useGetSearchHeroesQuery } = marvelApi;

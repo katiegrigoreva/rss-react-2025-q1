@@ -3,10 +3,9 @@ import './pagination.css';
 
 type paginationProps = {
   totalHeroes: number;
-  onChangePage: (arg: string) => void;
 };
 
-const Pagination = ({ totalHeroes, onChangePage }: paginationProps) => {
+const Pagination = ({ totalHeroes }: paginationProps) => {
   const pageNumbers = [];
   const heroesPerPage: number = 8;
   const offset = new URLSearchParams(location.search).get('offset');
@@ -19,13 +18,7 @@ const Pagination = ({ totalHeroes, onChangePage }: paginationProps) => {
   return (
     <ul className="pagination">
       {pageNumbers.map((pageNum, i) => (
-        <li
-          className="pagination__item"
-          key={pageNum}
-          onClick={() => {
-            onChangePage(location.search);
-          }}
-        >
+        <li className="pagination__item" key={pageNum}>
           <Link
             to={`?limit=8&offset=${heroesPerPage * i}`}
             className={`pagination__link ${offsetToUse === (heroesPerPage * i).toString() ? 'active' : ''}`}

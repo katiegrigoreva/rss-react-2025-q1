@@ -38,13 +38,6 @@ const HeroInfo = () => {
       <button onClick={onClose}>
         <img className="heroInfo__close" src="../../../assets/close-red.png" alt="close" role="closeBtn" />
       </button>
-      {/* <img
-        className="heroInfo__close"
-        src="../../../assets/close-red.png"
-        alt="close"
-        role="closeBtn"
-        onClick={onClose}
-      /> */}
       <img className="heroInfo__img" src={heroInfo?.img} alt={heroInfo?.name} />
       <div>
         <div className="heroInfo__name">
