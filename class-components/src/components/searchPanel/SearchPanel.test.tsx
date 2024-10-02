@@ -1,4 +1,3 @@
-import { beforeEach } from 'node:test';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -15,18 +14,12 @@ const localStorageMock = (function () {
   const getItem = (key: string): string => {
     return localStorageStore[key];
   };
-  const clear = () => {
-    delete localStorageStore.key;
-  };
-  return { setItem, getItem, clear };
+  return { setItem, getItem };
 })();
 
 Object.defineProperty(window, 'localStorage', localStorageMock);
 
 describe('Test searchPanel', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
   it('saves the entered value to the local storage', () => {
     render(
       <BrowserRouter>
