@@ -1,68 +1,64 @@
 import { useEffect, useState } from 'react';
-import ApiConnector, { heroData } from '../../../api/ApiConnector';
-import ErrorMessage from '../../errorMessage/ErrorMessage';
 import HeroesList from '../../heroesList/HeroesList';
 import SearchPanel from '../../searchPanel/SearchPanel';
+import { ThemeSelector } from '../../themeSelector/ThemeSelector';
+import './mainPage.css';
+import { useGetSearchHeroesQuery } from '../../../api/apiSlice';
+import ErrorMessage from '../../errorMessage/ErrorMessage';
 import Spinner from '../../spinner/Spinner';
-import { useNavigate } from 'react-router';
+import { getTransformedData } from '../../../helpers/getTransformedData';
 import { apiConstants } from '../../../api/apiConstants';
+import { useLocation, useNavigate } from 'react-router';
+import Pagination from '../../pagination/Pagination';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 const Main = () => {
-  const [term, setTerm] = useLocalStorage('searchTerm', '');
-  const [heroesList, setHeroesList] = useState<heroData[]>([]);
-  const [totalHeroes, setTotalHeroes] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
+  const [query, setQuery] = useState<string>(apiConstants._baseQuery);
+  const [isSearch, setIsSearch] = useState(true);
+  const location = useLocation();
   const navigate = useNavigate();
-  const apiConnector = new ApiConnector();
-
-  const onUpdateSearch = (newTerm: string) => {
-    setTerm(newTerm);
-  };
+  const { data, isLoading, isFetching, isError } = useGetSearchHeroesQuery(
+    { searchValue: searchTerm, query: query.slice(1) },
+    {
+      skip: isSearch === false,
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   useEffect(() => {
-    localStorage.clear();
-    navigate('/');
-  }, []);
+    setQuery(location.search.length ? location.search : apiConstants._baseQuery);
+  }, [location.search]);
 
-  const getSearchData = () => {
-    navigate(`/?${apiConstants._baseQuery}`);
-    setLoading(true);
-    return apiConnector
-      .getSearchData(term, apiConstants._baseQuery)
-      .then((data) => {
-        onUpdateHeroesList(data.heroesList);
-        setTotalHeroes(data.totalHeroes);
-      })
-      .catch(onError)
-      .finally(() => {
-        setLoading(false);
-      });
+  const onUpdateSearch = (newTerm: string) => {
+    setIsSearch(false);
+    setSearchTerm(newTerm);
   };
 
-  const onUpdateHeroesList = (newHeroesList: heroData[]) => {
-    setHeroesList(newHeroesList);
-  };
-
-  const onError = () => {
-    setError(true);
-  };
-
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const spinner = loading ? <Spinner /> : null;
+  const errorMessage = isError ? <ErrorMessage /> : null;
+  const spinner = isLoading || isFetching ? <Spinner /> : null;
 
   return (
     <>
-      <div className="searchPanel">
-        <SearchPanel onUpdateSearch={onUpdateSearch} />
-        <button className="searchPanel__btn" onClick={getSearchData}>
-          Search
-        </button>
-      </div>
+      <section className="controlPanel">
+        <div className="searchPanel">
+          <SearchPanel onUpdateSearch={onUpdateSearch} />
+          <button
+            className="searchPanel__btn"
+            onClick={() => {
+              setIsSearch(true);
+              navigate('/');
+            }}
+          >
+            Search
+          </button>
+        </div>
+        <ThemeSelector />
+      </section>
       {spinner}
       {errorMessage}
-      <HeroesList heroesList={heroesList} totalHeroes={totalHeroes} />
+      <HeroesList heroesList={getTransformedData(data).heroesList} totalHeroes={getTransformedData(data).totalHeroes} />
+      <Pagination totalHeroes={getTransformedData(data).totalHeroes} />
     </>
   );
 };
