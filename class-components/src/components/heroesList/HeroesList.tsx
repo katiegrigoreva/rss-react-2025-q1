@@ -27,7 +27,10 @@ class HeroesList extends Component<HeroesListProps, heroesListState> {
   apiConnector = new ApiConnector();
 
   componentDidMount() {
-    this.apiConnector.getAllHeroes().then(this.onListLoaded).catch(this.onError);
+    const searchTerm = localStorage.getItem('searchTerm');
+    searchTerm
+      ? this.apiConnector.getSearchData(searchTerm).then(this.onListLoaded).catch(this.onError)
+      : this.apiConnector.getAllHeroes().then(this.onListLoaded).catch(this.onError);
   }
 
   componentDidUpdate(prevProps: Readonly<HeroesListProps>): void {

@@ -15,6 +15,7 @@ class SearchPanel extends Component<AppProps, { term: string }> {
 
   onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value.trim().toLowerCase();
+    localStorage.setItem('searchTerm', term);
     this.setState({ term });
     this.props.onUpdateSearch(term);
   };
@@ -24,7 +25,7 @@ class SearchPanel extends Component<AppProps, { term: string }> {
       <input
         type="text"
         className="searchPanel__input"
-        placeholder="Search your superhero"
+        placeholder={localStorage.getItem('searchTerm') || 'Search your superhero'}
         value={this.state.term}
         onChange={this.onUpdateSearch}
       />
