@@ -4,6 +4,7 @@ Here are the steps to simplify your code review proccess:
 2. Install all the dependencies ```npm i```
 3. Run ```npm run lint```
 4. Run ```npm run format:fix```
-5. Review my code
+5. Start the project ```npm run dev```
+6. Review my code
    
 Thank you! I will be glad to hear some useful advices to improve myself.
