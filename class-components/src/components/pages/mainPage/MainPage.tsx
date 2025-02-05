@@ -7,6 +7,7 @@ import Spinner from '../../spinner/Spinner';
 import { useNavigate } from 'react-router';
 import { apiConstants } from '../../../api/apiConstants';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import Pagination from '../../pagination/Pagination';
 
 const Main = () => {
   const [term, setTerm] = useLocalStorage('searchTerm', '');
@@ -26,11 +27,15 @@ const Main = () => {
     navigate('/');
   }, []);
 
+  useEffect(() => {
+    getSearchData();
+  }, [location.search]);
+
   const getSearchData = () => {
-    navigate(`/?${apiConstants._baseQuery}`);
+    const query = location.search ? location.search : apiConstants._baseQuery;
     setLoading(true);
-    return apiConnector
-      .getSearchData(term, apiConstants._baseQuery)
+    apiConnector
+      .getSearchData(term, query)
       .then((data) => {
         onUpdateHeroesList(data.heroesList);
         setTotalHeroes(data.totalHeroes);
@@ -51,6 +56,7 @@ const Main = () => {
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
+  const maxTotalHeroes: number = 150;
 
   return (
     <>
@@ -63,6 +69,7 @@ const Main = () => {
       {spinner}
       {errorMessage}
       <HeroesList heroesList={heroesList} totalHeroes={totalHeroes} />
+      <Pagination totalHeroes={totalHeroes < maxTotalHeroes ? totalHeroes : maxTotalHeroes} />
     </>
   );
 };
