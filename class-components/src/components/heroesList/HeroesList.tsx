@@ -17,6 +17,9 @@ const HeroesList = (props: HeroesListProps) => {
           className="hero__item"
           key={item.name}
           onClick={() => {
+            if (location.pathname.includes('details')) {
+              navigate(-1);
+            }
             navigate(`details/id:${item.id}${location.search}`);
           }}
         >

@@ -12,10 +12,24 @@ const HeroInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const myRef = useRef(0);
+  const detailsRef = useRef<HTMLDivElement>(null);
   const apiConnector = new ApiConnector();
 
   const indx = location.pathname.split('').findIndex((el) => el === ':');
   const id = location.pathname.slice(indx + 1);
+
+  useEffect(() => {
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
+
+  const handleClick = (e: MouseEvent) => {
+    if ((e.target as HTMLElement).className === 'hero__list') {
+      navigate(-1);
+    }
+  };
 
   useEffect(() => {
     myRef.current++;
@@ -25,9 +39,11 @@ const HeroInfo = () => {
         .getHeroInfo(id)
         .then(onInfoLoaded)
         .catch(onError)
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+        });
     }
-  }, [id]);
+  }, []);
 
   const onClose = () => {
     navigate(-myRef.current);
@@ -46,7 +62,7 @@ const HeroInfo = () => {
   const spinner = loading ? <Spinner /> : null;
 
   return (
-    <div className="heroInfo">
+    <div className="heroInfo" ref={detailsRef}>
       {spinner}
       {errorMsg}
       <img className="heroInfo__close" src="../../../assets/close.png" alt="close" onClick={onClose} />
