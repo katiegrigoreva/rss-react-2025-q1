@@ -16,7 +16,7 @@ const Pagination = ({ totalHeroes }: paginationProps) => {
   }
 
   return (
-    <ul className="pagination">
+    <ul className="pagination" role="pagination">
       {pageNumbers.map((pageNum, i) => (
         <li className="pagination__item" key={pageNum}>
           <Link

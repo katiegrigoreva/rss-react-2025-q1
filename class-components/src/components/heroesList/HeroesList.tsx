@@ -36,7 +36,7 @@ const HeroesList = (props: HeroesListProps) => {
 
   return (
     <>
-      <section className="hero">
+      <section className="hero" role="cardList">
         <div className="hero__list">{items}</div>
         <Outlet />
       </section>
