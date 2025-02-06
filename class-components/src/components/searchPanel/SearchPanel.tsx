@@ -1,5 +1,6 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import './searchPanel.css';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 export type SearchPanelProps = {
   onUpdateSearch: onUpdateSearchType;
@@ -9,7 +10,7 @@ export type onUpdateSearchType = {
 };
 
 const SearchPanel = (props: SearchPanelProps) => {
-  const [term, setTerm] = useState('');
+  const [term, setTerm] = /* useState(''); */ useLocalStorage('searchTerm', '');
 
   const onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const termValue = e.target.value.trim().toLowerCase();
@@ -21,7 +22,7 @@ const SearchPanel = (props: SearchPanelProps) => {
     <input
       type="text"
       className="searchPanel__input"
-      placeholder="Search your superhero"
+      placeholder={localStorage.getItem('searchTerm') || 'Search your superhero'}
       value={term}
       onChange={onUpdateSearch}
     />
