@@ -1,8 +1,9 @@
-import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
 import HeroesList from './HeroesList';
 import { BrowserRouter } from 'react-router-dom';
 import { heroData } from '../../api/ApiConnector';
+import HeroesListItem from '../heroesListItem/heroesListItem';
 
 const mockHeroData: heroData[] = [
   {
@@ -32,5 +33,15 @@ describe('Test heroesList component', () => {
       </BrowserRouter>
     );
     expect(screen.getByText('There is no hero with such name')).toBeInTheDocument();
+  });
+  it('opens a detailed card component when clicking on a card', () => {
+    const mockFn = vi.fn();
+    render(
+      <BrowserRouter>
+        <HeroesListItem key={mockHeroData[0].name} itemInfo={mockHeroData[0]} onCardClick={mockFn}></HeroesListItem>
+      </BrowserRouter>
+    );
+    fireEvent.click(screen.getByText('mockHero1'));
+    expect(mockFn).toHaveBeenCalledTimes(1);
   });
 });
