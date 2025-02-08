@@ -62,7 +62,7 @@ const HeroInfo = () => {
   const spinner = loading ? <Spinner /> : null;
 
   return (
-    <div className="heroInfo" ref={detailsRef}>
+    <div className="heroInfo" ref={detailsRef} role="heroInfo">
       {spinner}
       {errorMsg}
       <img className="heroInfo__close" src="../../../assets/close.png" alt="close" onClick={onClose} />
