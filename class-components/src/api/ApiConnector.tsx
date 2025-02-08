@@ -49,7 +49,7 @@ class ApiConnector {
     }
 
     const res = await this.getData(
-      `${apiConstants._apiBase}?nameStartsWith=${searchValue}&${query}&${apiConstants._apiKey}`
+      `${apiConstants._apiBase}?nameStartsWith=${searchValue}&${query.slice(1)}&${apiConstants._apiKey}`
     );
     return {
       heroesList: res.data.results.map(this.transformHeroData),
