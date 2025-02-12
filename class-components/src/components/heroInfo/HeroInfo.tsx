@@ -20,6 +20,19 @@ const HeroInfo = () => {
   });
 
   useEffect(() => {
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
+
+  const handleClick = (e: MouseEvent) => {
+    if ((e.target as HTMLElement).className === 'hero__list') {
+      navigate(-1);
+    }
+  };
+
+  useEffect(() => {
     myRef.current++;
   }, [id]);
 

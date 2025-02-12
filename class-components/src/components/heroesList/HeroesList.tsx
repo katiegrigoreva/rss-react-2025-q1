@@ -21,9 +21,16 @@ const HeroesList = (props: HeroesListProps) => {
   const [selectedItems, setSelectedItems] = useState<number>(0);
 
   const onCardClickHandle = (event: BaseSyntheticEvent, item: heroData) => {
-    if (event.target.className !== 'checkbox') {
-      navigate(`details/id:${item.id}${location.search}`);
+    if (event.target.className === 'checkbox') {
+      /*       (e: BaseSyntheticEvent) => onCheckboxClickHandle(e);
+       */ return;
+      /* navigate(`details/id:${item.id}${location.search}`); */
     }
+    if (location.pathname.includes('details')) {
+      navigate(-1);
+      return;
+    }
+    navigate(`details/id:${item.id}${location.search}`);
   };
   const onCheckboxClickHandle = (e: BaseSyntheticEvent) => {
     if (e.target.checked) {
