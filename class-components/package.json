@@ -1,7 +1,7 @@
 {
-  "name": "class-components",
+  "name": "rss-react-app",
   "version": "1.0.0",
-  "description": "rss-react-2024-q3-task",
+  "description": "rss-react-2025-q1-task",
   "main": "index.tsx",
   "type": "module",
   "scripts": {

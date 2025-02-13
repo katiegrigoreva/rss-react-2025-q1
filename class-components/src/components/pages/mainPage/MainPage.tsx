@@ -11,13 +11,16 @@ import { apiConstants } from '../../../api/apiConstants';
 import { useLocation, useNavigate } from 'react-router';
 import Pagination from '../../pagination/Pagination';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import { useDispatch } from 'react-redux';
+import { heroesFetched } from '../../../slices/heroesListSlice';
 
 const Main = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
   const [query, setQuery] = useState<string>(apiConstants._baseQuery);
   const [isSearch, setIsSearch] = useState(true);
-  const location = useLocation();
-  const navigate = useNavigate();
   const { data, isLoading, isFetching, isError } = useGetSearchHeroesQuery(
     { searchValue: searchTerm, query: query.slice(1) },
     {
@@ -25,6 +28,10 @@ const Main = () => {
       refetchOnMountOrArgChange: true,
     }
   );
+
+  useEffect(() => {
+    dispatch(heroesFetched(data));
+  }, [data]);
 
   useEffect(() => {
     setQuery(location.search.length ? location.search : apiConstants._baseQuery);
@@ -37,6 +44,8 @@ const Main = () => {
 
   const errorMessage = isError ? <ErrorMessage /> : null;
   const spinner = isLoading || isFetching ? <Spinner /> : null;
+  const heroes = getTransformedData(data).heroesList;
+  const totalHeroes = getTransformedData(data).totalHeroes;
 
   return (
     <>
@@ -57,8 +66,8 @@ const Main = () => {
       </section>
       {spinner}
       {errorMessage}
-      <HeroesList heroesList={getTransformedData(data).heroesList} totalHeroes={getTransformedData(data).totalHeroes} />
-      <Pagination totalHeroes={getTransformedData(data).totalHeroes} />
+      <HeroesList heroesList={heroes} totalHeroes={totalHeroes} />
+      <Pagination totalHeroes={totalHeroes} />
     </>
   );
 };

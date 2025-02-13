@@ -15,9 +15,7 @@ const HeroInfo = () => {
   const indx = location.pathname.split('').findIndex((el) => el === ':');
   const id = location.pathname.slice(indx + 1);
 
-  const { data, isLoading, isFetching, isError } = useGetHeroInfoQuery(id, {
-    skip: id === '',
-  });
+  const { data, isLoading, isFetching, isError } = useGetHeroInfoQuery(id);
 
   useEffect(() => {
     document.addEventListener('click', handleClick);
