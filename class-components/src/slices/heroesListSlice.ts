@@ -1,7 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { heroData } from '../api/apiSlice';
 
-const initialState = {
-  heroesListData: {},
+export type SliceState = {
+  heroesListData: heroData[];
+  selectedHeroes: heroData[];
+  selectedCheckboxes: HTMLInputElement[];
+};
+
+const initialState: SliceState = {
+  heroesListData: [],
+  selectedHeroes: [],
+  selectedCheckboxes: [],
 };
 
 const heroesSlice = createSlice({
@@ -11,6 +20,22 @@ const heroesSlice = createSlice({
     heroesFetched: (state, action) => {
       state.heroesListData = action.payload;
     },
+    selectHero: (state, action) => {
+      state.selectedHeroes.push(action.payload);
+    },
+    selectCheckbox: (state, action) => {
+      state.selectedCheckboxes.push(action.payload);
+    },
+    unselectHero: (state, action) => {
+      state.selectedHeroes = state.selectedHeroes.filter((hero) => hero.id !== action.payload.id);
+    },
+    unselectCheckbox: (state, action) => {
+      action.payload.checked = false;
+      state.selectedCheckboxes = state.selectedCheckboxes.filter((item) => item.checked === true);
+    },
+    unselectAll: (state) => {
+      state.selectedHeroes = [];
+    },
   },
 });
 
@@ -18,4 +43,4 @@ const { actions, reducer } = heroesSlice;
 
 export default reducer;
 
-export const { heroesFetched } = actions;
+export const { heroesFetched, selectHero, unselectHero, unselectAll, selectCheckbox, unselectCheckbox } = actions;

@@ -4,7 +4,10 @@ import heroesReducer from '../slices/heroesListSlice';
 
 const store = configureStore({
   reducer: { [marvelApi.reducerPath]: marvelApi.reducer, heroesReducer },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(marvelApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(marvelApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
