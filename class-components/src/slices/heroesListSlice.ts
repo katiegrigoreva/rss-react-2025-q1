@@ -4,7 +4,7 @@ import { heroData } from '../api/apiSlice';
 export type SliceState = {
   heroesListData: heroData[];
   selectedHeroes: heroData[];
-  selectedCheckboxes: HTMLInputElement[];
+  selectedCheckboxes: string[];
 };
 
 const initialState: SliceState = {
@@ -27,14 +27,14 @@ const heroesSlice = createSlice({
       state.selectedCheckboxes.push(action.payload);
     },
     unselectHero: (state, action) => {
-      state.selectedHeroes = state.selectedHeroes.filter((hero) => hero.id !== action.payload.id);
+      state.selectedHeroes = state.selectedHeroes.filter((hero) => hero.id !== action.payload);
     },
     unselectCheckbox: (state, action) => {
-      action.payload.checked = false;
-      state.selectedCheckboxes = state.selectedCheckboxes.filter((item) => item.checked === true);
+      state.selectedCheckboxes = state.selectedCheckboxes.filter((item) => item !== action.payload);
     },
     unselectAll: (state) => {
       state.selectedHeroes = [];
+      state.selectedCheckboxes = [];
     },
   },
 });

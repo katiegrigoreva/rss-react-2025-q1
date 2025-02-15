@@ -30,7 +30,7 @@ const Main = () => {
   );
 
   useEffect(() => {
-    dispatch(heroesFetched(data));
+    dispatch(heroesFetched(data?.heroesList));
   }, [data]);
 
   useEffect(() => {

@@ -1,10 +1,10 @@
-import { useState, BaseSyntheticEvent } from 'react';
+import { BaseSyntheticEvent } from 'react';
 import './heroesList.css';
 import { Outlet, useNavigate } from 'react-router';
 import { heroData } from '../../api/apiSlice';
 import { Flyout } from '../flyout/Flyout';
 import HeroesListItem from './HeroesListItem';
-import { selectCheckbox, selectHero, unselectAll, unselectCheckbox, unselectHero } from '../../slices/heroesListSlice';
+import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../../slices/heroesListSlice';
 import { useDispatch } from 'react-redux';
 
 export type HeroesListProps = {
@@ -15,13 +15,6 @@ export type HeroesListProps = {
 const HeroesList = (props: HeroesListProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [selectedHeroes, setSelectedHeroes] = useState(0);
-  /*  useEffect(() => {
-    if (selectedHeroes.length === 0) setIsFlyout(false);
-    navigate('/');
-  }, []); */
-
-  const [isFlyout, setIsFlyout] = useState(false);
 
   const onCardClickHandle = (event: BaseSyntheticEvent, item: heroData) => {
     if (event.target.className === 'checkbox') {
@@ -33,23 +26,15 @@ const HeroesList = (props: HeroesListProps) => {
     }
     navigate(`details/id:${item.id}${location.search}`);
   };
+
   const onCheckboxClickHandle = (e: BaseSyntheticEvent, hero: heroData) => {
     if (e.target.checked) {
-      console.log(e);
       dispatch(selectHero(hero));
-      dispatch(selectCheckbox(e.target));
-      setIsFlyout(true);
-      setSelectedHeroes((prev) => ++prev);
+      dispatch(selectCheckbox(e.target.name));
     } else {
-      dispatch(unselectHero(hero));
-      dispatch(unselectCheckbox(e.target));
-      setSelectedHeroes((prev) => --prev);
+      dispatch(unselectHero(hero.id));
+      dispatch(unselectCheckbox(e.target.name));
     }
-  };
-
-  const onUnselectAll = () => {
-    dispatch(unselectAll());
-    setSelectedHeroes(0);
   };
 
   function renderItems(arr: heroData[]) {
@@ -68,9 +53,6 @@ const HeroesList = (props: HeroesListProps) => {
 
   const items = renderItems(props.heroesList);
   const content = items.length !== 0 ? items : <h3>No heroes found</h3>;
-  const flyout = isFlyout ? (
-    <Flyout isVisible={isFlyout} selectedItems={selectedHeroes} unselectAll={() => onUnselectAll()} />
-  ) : null;
 
   return (
     <>
@@ -78,7 +60,7 @@ const HeroesList = (props: HeroesListProps) => {
         <div className="hero__list">{content}</div>
         <Outlet />
       </section>
-      {flyout}
+      <Flyout />
     </>
   );
 };
