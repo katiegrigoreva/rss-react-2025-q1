@@ -8,7 +8,7 @@ export const ThemeSelector = () => {
   return (
     <div className="themeTabs">
       {context.theme === 'light' ? (
-        <input type="radio" id="radio-1" name="tabs" onChange={context.toggleTheme} checked />
+        <input type="radio" id="radio-1" name="tabs" onChange={context.toggleTheme} />
       ) : (
         <input type="radio" id="radio-1" name="tabs" onChange={context.toggleTheme} />
       )}
@@ -16,7 +16,7 @@ export const ThemeSelector = () => {
         Light
       </label>
       {context.theme === 'dark' ? (
-        <input type="radio" id="radio-2" name="tabs" onChange={context.toggleTheme} checked />
+        <input type="radio" id="radio-2" name="tabs" onChange={context.toggleTheme} />
       ) : (
         <input type="radio" id="radio-2" name="tabs" onChange={context.toggleTheme} />
       )}
