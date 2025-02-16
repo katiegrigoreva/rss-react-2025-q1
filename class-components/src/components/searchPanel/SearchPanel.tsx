@@ -26,7 +26,7 @@ const SearchPanel = (props: SearchPanelProps) => {
       type="text"
       className={`searchPanel__input searchPanel__input_${context.theme}`}
       placeholder="Search your superhero"
-      value={term}
+      value={term || ''}
       onChange={onUpdateSearch}
     />
   );

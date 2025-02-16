@@ -22,6 +22,19 @@ export const Flyout = () => {
     dispatch(unselectAll());
   };
 
+  const getURL = () => {
+    if (selectedHeroes.length !== 0) {
+      const headers = Object.keys(selectedHeroes[0]).toString();
+      const info = selectedHeroes?.map((item) => {
+        return Object.values(item).toString();
+      });
+      const dataToSave = [headers, ...info].join('\n');
+      const blob = new Blob([dataToSave], { type: 'application/csv' });
+      const url = URL.createObjectURL(blob);
+      return url;
+    }
+  };
+
   return (
     <div className={selectedHeroes.length && isVisible ? 'flyout' : 'flyout__invisible'}>
       <img onClick={onClose} className="flyout__close" src="../../../assets/close-red.png" alt="close" />
@@ -30,7 +43,9 @@ export const Flyout = () => {
       </button>
       <p>Total: {selectedHeroes.length}</p>
       <button className="searchPanel__btn" disabled>
-        Download
+        <a href={getURL()} download={`${selectedHeroes.length}_marvelHeroes.csv`}>
+          Download
+        </a>
       </button>
     </div>
   );
