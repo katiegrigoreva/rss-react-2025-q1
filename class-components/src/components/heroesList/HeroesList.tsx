@@ -56,7 +56,7 @@ const HeroesList = (props: HeroesListProps) => {
 
   return (
     <>
-      <section className="hero">
+      <section className="hero" role="cardList">
         <div className="hero__list">{content}</div>
         <Outlet />
       </section>

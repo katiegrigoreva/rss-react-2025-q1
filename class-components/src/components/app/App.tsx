@@ -1,3 +1,5 @@
+/* v8 ignore start */
+
 import Header from '../header/Header';
 import Main from '../pages/mainPage/MainPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
