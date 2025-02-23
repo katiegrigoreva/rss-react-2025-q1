@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "jsx": "preserve",
     "strict": true,
     "noUnusedLocals": true,
@@ -23,7 +23,7 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src", "./dist/types/**/*","./next-env.d.ts" ],
+  "include": ["./src", "./dist/types/**/*","./next-env.d.ts", "pages", "components" ],
   "exclude": ["./node_modules"]
 
 }

@@ -1,4 +1,4 @@
-import { createContext, useEffect, JSX } from 'react';
+import { createContext } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export const ThemeContext = createContext({
@@ -6,17 +6,12 @@ export const ThemeContext = createContext({
   toggleTheme: () => {},
 });
 
-export const ThemeProvider = (props: { children: JSX.Element }) => {
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useLocalStorage('theme', 'light');
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
-  useEffect(() => {
-    if (theme === 'dark') document.body.classList.add('dark');
-    else document.body.classList.remove('dark');
-  }, [theme]);
-
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{props.children}</ThemeContext.Provider>;
-};
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+}

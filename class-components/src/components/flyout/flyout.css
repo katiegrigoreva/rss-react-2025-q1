@@ -10,13 +10,13 @@
   width: 320px;
   height: 70px;
   border-radius: 5px;
-  background-color: rgb(0, 0, 0, .8);
+  background-color: rgb(0, 0, 0, 0.8);
   color: white;
 }
 .flyout a {
   color: white;
   text-decoration: none;
-} 
+}
 .flyout__invisible {
   display: none;
 }

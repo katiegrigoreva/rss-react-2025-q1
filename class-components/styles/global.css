@@ -7,6 +7,13 @@
   font-family: sans-serif;
 }
 
+.appContainer {
+  margin: 0 auto;
+  padding: 0 50px;
+  min-height: 500px;
+  min-width: 630px;
+}
+
 .dark {
   background-color: rgb(0, 0, 0);
 }

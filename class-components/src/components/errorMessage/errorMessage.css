@@ -7,7 +7,7 @@
   height: 100%;
   background-color: rgb(0, 0, 0, 0.6);
 }
-.errorMessage img { 
+.errorMessage img {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -16,5 +16,5 @@
   width: 350px;
   height: 350px;
   object-fit: contain;
-  margin: 0 auto
+  margin: 0 auto;
 }

@@ -22,11 +22,11 @@
   z-index: 1;
 }
 
-input[type="radio"] {
+.input {
 	display: none;
 }
 
-input[id="radio-2"]:checked ~ .glider{
+[id="radio-2"]:checked ~ .glider{
   transform: translateX(100%);
 }
 

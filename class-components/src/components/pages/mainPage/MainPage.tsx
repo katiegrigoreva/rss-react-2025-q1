@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import HeroesList from '../../heroesList/HeroesList';
 import SearchPanel from '../../searchPanel/SearchPanel';
-import { ThemeSelector } from '../../themeSelector/ThemeSelector';
+import { ThemeSelector } from '../../../../components/themeSelector/ThemeSelector';
 import './mainPage.css';
 import { useGetSearchHeroesQuery } from '../../../api/apiSlice';
 import ErrorMessage from '../../errorMessage/ErrorMessage';
