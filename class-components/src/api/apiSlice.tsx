@@ -18,7 +18,7 @@ export type heroData = {
     path: string;
     extension: string;
   };
-  img?: string;
+  img: string;
 };
 
 export type heroInfo = {

@@ -8,6 +8,10 @@
   z-index: 10;
 }
 
+.dark {
+  box-shadow: 0px 10px 20px 7px rgba(0, 0, 255, 0.2);
+}
+
 .tab {
 	display: flex;
 	align-items: center;

@@ -4,9 +4,10 @@ import { ThemeContext } from '../../src/context/ThemeContext';
 
 export function ThemeSelector() {
   const context = useContext(ThemeContext);
+  const dark = context.theme === 'dark' ? styles.dark : '';
 
   return (
-    <div className={styles.themeTabs}>
+    <div className={`${styles.themeTabs} ${dark}`}>
       <input type="radio" id="radio-1" className={styles.input} name="tabs" onChange={context.toggleTheme} />
       <label className={styles.tab} htmlFor="radio-1">
         Light
