@@ -1,5 +1,7 @@
+import { NextPageContext } from 'next';
 import HeroesList, { heroData } from '../components/heroesList/HeroesList';
 import MainLayout from '../components/mainLayout/MainLayout';
+import Pagination from '../components/pagination/Pagination';
 import { _hash, _ts, apiConstants } from '../src/api/apiConstants';
 import { getTransformedData } from '../src/helpers/getTransformedData';
 
@@ -10,10 +12,11 @@ export type ApiResponse = {
   };
 };
 
-export async function getStaticProps() {
-  const res = await fetch(`${apiConstants._apiBase}${apiConstants._baseQuery}&${_ts}&${apiConstants._apiKey}&${_hash}`);
+export async function getServerSideProps({ query }: NextPageContext) {
+  const res = await fetch(
+    `${apiConstants._apiBase}?limit=8&offset=${query.offset}&${_ts}&${apiConstants._apiKey}&${_hash}`
+  );
   const response = await res.json();
-
   return {
     props: {
       data: response.data,
@@ -34,6 +37,7 @@ const Index = ({ data }: ApiResponse) => {
     <>
       <MainLayout>
         <HeroesList heroesList={heroes} totalHeroes={total}></HeroesList>
+        <Pagination totalHeroes={total} />
       </MainLayout>
     </>
   );

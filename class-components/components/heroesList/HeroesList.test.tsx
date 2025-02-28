@@ -3,8 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import HeroesList from './HeroesList';
 import { BrowserRouter } from 'react-router-dom';
-import { heroData } from '../../api/apiSlice';
-import store from '../../store';
+import { heroData } from '../../src/api/apiSlice';
+import store from '../../src/store';
 import HeroesListItem from './HeroesListItem';
 
 const mockHeroData: heroData[] = [
@@ -12,11 +12,13 @@ const mockHeroData: heroData[] = [
     id: 1,
     name: 'mockHero1',
     description: 'ipsum',
+    img: '/Без названия.jpg',
   },
   {
     id: 2,
     name: 'mockHero2',
     description: 'lorem',
+    img: '/Без названия.jpg',
   },
 ];
 
