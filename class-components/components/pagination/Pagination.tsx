@@ -10,7 +10,7 @@ const Pagination = ({ totalHeroes }: paginationProps) => {
   const pageNumbers = [];
   const heroesPerPage: number = 8;
   const router = useRouter();
-
+  console.log(router);
   for (let i = 1; i <= Math.ceil(totalHeroes / heroesPerPage); i += 1) {
     pageNumbers.push(i);
   }
