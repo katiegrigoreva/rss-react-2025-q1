@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './flyout.css';
-import { useAppSelector } from '../../hooks/reduxHooks';
+import { useAppSelector } from '../../../hooks/reduxHooks';
 import { RootState } from '../../store/index';
 import { useDispatch } from 'react-redux';
 import { unselectAll } from '../../slices/heroesListSlice';

@@ -1,16 +1,7 @@
 import { NextPageContext } from 'next';
-import HeroesList, { heroData } from '../components/heroesList/HeroesList';
+import HeroesList, { ApiResponse } from '../components/heroesList/HeroesList';
 import MainLayout from '../components/mainLayout/MainLayout';
-import Pagination from '../components/pagination/Pagination';
-import { _hash, _ts, apiConstants } from '../src/api/apiConstants';
-import { getTransformedData } from '../src/helpers/getTransformedData';
-
-export type ApiResponse = {
-  data: {
-    results: heroData[];
-    total: number;
-  };
-};
+import { _hash, _ts, apiConstants } from '../api/apiConstants';
 
 export async function getServerSideProps({ query }: NextPageContext) {
   const res = await fetch(
@@ -25,19 +16,20 @@ export async function getServerSideProps({ query }: NextPageContext) {
 }
 
 const Index = ({ data }: ApiResponse) => {
-  const heroesListProps = {
+  /*  const heroesListProps = {
     heroesList: data.results,
     totalHeroes: data.total,
   };
 
   const heroes = getTransformedData(heroesListProps).heroesList;
-  const total = getTransformedData(heroesListProps).totalHeroes;
+  const total = getTransformedData(heroesListProps).totalHeroes; */
 
   return (
     <>
       <MainLayout>
-        <HeroesList heroesList={heroes} totalHeroes={total}></HeroesList>
-        <Pagination totalHeroes={total} />
+        {/* <HeroesList heroesList={heroes} totalHeroes={total}></HeroesList>
+        <Pagination totalHeroes={total} /> */}
+        <HeroesList data={{ data }} />
       </MainLayout>
     </>
   );

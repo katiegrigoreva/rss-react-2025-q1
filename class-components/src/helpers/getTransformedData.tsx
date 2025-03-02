@@ -1,5 +1,5 @@
-import { heroData } from '../api/apiSlice';
-import { HeroesListProps } from '../components/heroesList/HeroesList';
+import { heroData } from '../../api/apiSlice';
+import { HeroesListProps } from '../../components/heroesList/HeroesList';
 
 export const transformHeroData = (hero: heroData) => {
   return {

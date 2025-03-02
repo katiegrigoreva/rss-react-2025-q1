@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { heroData } from '../api/apiSlice';
+import { heroData } from '../../api/apiSlice';
 
 export type SliceState = {
   heroesListData: heroData[];

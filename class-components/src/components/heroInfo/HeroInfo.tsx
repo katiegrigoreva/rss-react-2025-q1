@@ -4,7 +4,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../../../components/spinner/Spinner';
 import { useLocation, useNavigate } from 'react-router';
 import { ThemeContext } from '../../context/ThemeContext';
-import { useGetHeroInfoQuery } from '../../api/apiSlice';
+import { useGetHeroInfoQuery } from '../../../api/apiSlice';
 
 const HeroInfo = () => {
   const navigate = useNavigate();

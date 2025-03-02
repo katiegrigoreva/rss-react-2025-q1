@@ -3,10 +3,17 @@ import styles from './heroesList.module.css';
 import HeroesListItem from './HeroesListItem';
 import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../../src/slices/heroesListSlice';
 import { useDispatch } from 'react-redux';
+import { getTransformedData } from '../../src/helpers/getTransformedData';
+import Pagination from '../pagination/Pagination';
 
 export type HeroesListProps = {
   heroesList: heroData[];
   totalHeroes: number;
+};
+
+type HeroesList = {
+  data: ApiResponse;
+  children?: React.ReactNode;
 };
 
 export type heroData = {
@@ -20,20 +27,34 @@ export type heroData = {
   img: string;
 };
 
-const HeroesList = (props: HeroesListProps) => {
-  /*   const navigate = useNavigate();
-   */ const dispatch = useDispatch();
+export type ApiResponse = {
+  data: {
+    results: heroData[];
+    total: number;
+  };
+};
 
-  /* const onCardClickHandle = (event: BaseSyntheticEvent, item: heroData) => {
-    if (event.target.className === 'checkbox') {
-      return;
-    }
-    if (location.pathname.includes('details')) {
-      navigate(-1);
-      return;
-    }
-    navigate(`details/id:${item.id}${location.search}`);
-  }; */
+/* export async function getServerSideProps({ query }: NextPageContext) {
+  const res = await fetch(
+    `${apiConstants._apiBase}?limit=8&offset=${query.offset}&${_ts}&${apiConstants._apiKey}&${_hash}`
+  );
+  const response = await res.json();
+  return {
+    props: {
+      data: response.data,
+    },
+  };
+} */
+
+const HeroesList = ({ data, children }: HeroesList) => {
+  const dispatch = useDispatch();
+  const heroesListParams = {
+    heroesList: data?.data.results,
+    totalHeroes: data?.data.total,
+  };
+
+  const heroes = getTransformedData(heroesListParams).heroesList;
+  const total = getTransformedData(heroesListParams).totalHeroes;
 
   const onCheckboxClickHandle = (e: BaseSyntheticEvent, hero: heroData) => {
     if (e.target.checked) {
@@ -51,7 +72,6 @@ const HeroesList = (props: HeroesListProps) => {
         <HeroesListItem
           key={item.name}
           itemInfo={item}
-          onCardClick={() => {}}
           onCheckboxClick={(e: BaseSyntheticEvent) => onCheckboxClickHandle(e, item)}
         ></HeroesListItem>
       );
@@ -59,14 +79,16 @@ const HeroesList = (props: HeroesListProps) => {
     return items;
   }
 
-  const items = renderItems(props.heroesList);
+  const items = renderItems(heroes);
   const content = items.length !== 0 ? items : <h3 className={styles.h3}>No heroes found</h3>;
 
   return (
     <>
       <section className={styles.hero} role="cardList">
         <div className={styles.hero__list}>{content}</div>
+        {children}
       </section>
+      <Pagination totalHeroes={total} />
     </>
   );
 };

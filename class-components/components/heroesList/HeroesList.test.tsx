@@ -3,9 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import HeroesList from './HeroesList';
 import { BrowserRouter } from 'react-router-dom';
-import { heroData } from '../../src/api/apiSlice';
+import { heroData } from '../../api/apiSlice';
 import store from '../../src/store';
 import HeroesListItem from './HeroesListItem';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { mockRouter } from '../pagination/Pagination.test';
 
 const mockHeroData: heroData[] = [
   {
@@ -25,11 +27,11 @@ const mockHeroData: heroData[] = [
 describe('Test heroesList component', () => {
   it('renders proper number of cards', () => {
     render(
-      <BrowserRouter>
+      <RouterContext.Provider value={mockRouter({})}>
         <Provider store={store}>
           <HeroesList heroesList={mockHeroData} totalHeroes={mockHeroData.length}></HeroesList>
         </Provider>
-      </BrowserRouter>
+      </RouterContext.Provider>
     );
 
     expect(screen.getAllByText(/mockHero/i)).toHaveLength(mockHeroData.length);

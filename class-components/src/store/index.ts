@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { marvelApi } from '../api/apiSlice';
+import { marvelApi } from '../../api/apiSlice';
 import heroesReducer from '../slices/heroesListSlice';
 
 export type RootState = ReturnType<typeof store.getState>;

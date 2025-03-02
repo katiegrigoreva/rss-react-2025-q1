@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import styles from './controlPanel.module.css';
 import { ThemeContext } from '../../src/context/ThemeContext';
 import { ThemeSelector } from '../themeSelector/ThemeSelector';
-import { useLocalStorage } from '../../src/hooks/useLocalStorage';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 /* export type SearchPanelProps = {
   onUpdateSearch: (arg: string) => void;

@@ -4,7 +4,7 @@ import Pagination from './Pagination';
 import { NextRouter } from 'next/router';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
-function MockRouter(router: Partial<NextRouter>): NextRouter {
+export function mockRouter(router: Partial<NextRouter>): NextRouter {
   return {
     basePath: '',
     pathname: '/',
@@ -39,7 +39,7 @@ describe('Pagination component', () => {
     const mockHeroes = 30;
 
     render(
-      <RouterContext.Provider value={MockRouter({ asPath: '/?limit=8&offset=0' })}>
+      <RouterContext.Provider value={mockRouter({ asPath: '/?limit=8&offset=0' })}>
         <Pagination totalHeroes={mockHeroes} />
       </RouterContext.Provider>
     );
