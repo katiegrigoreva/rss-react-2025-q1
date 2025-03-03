@@ -5,6 +5,7 @@ import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../.
 import { useDispatch } from 'react-redux';
 import { getTransformedData } from '../../helpers/getTransformedData';
 import Pagination from '../pagination/Pagination';
+import { useRouter } from 'next/router';
 
 export type HeroesListProps = {
   heroesList: heroData[];
@@ -35,6 +36,7 @@ export type ApiResponse = {
 };
 
 const HeroesList = ({ data, children }: HeroesList) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const heroesListParams = {
     heroesList: data?.data.results,
@@ -71,7 +73,15 @@ const HeroesList = ({ data, children }: HeroesList) => {
   const content = items.length !== 0 ? items : <h3 className={styles.h3}>No heroes found</h3>;
   return (
     <>
-      <section className={styles.hero} role="cardList">
+      <section
+        className={styles.hero}
+        role="cardList"
+        onClick={() => {
+          if (router.asPath.includes('details')) {
+            router.back();
+          }
+        }}
+      >
         <div className={styles.hero__list}>{content}</div>
         {children}
       </section>

@@ -3,6 +3,7 @@ import styles from './heroInfo.module.css';
 import { ThemeContext } from '../../context/ThemeContext';
 import { heroData } from '../heroesList/HeroesList';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface HeroInfo {
   heroInfo: heroData;
@@ -11,6 +12,7 @@ interface HeroInfo {
 const HeroInfo = (props: HeroInfo) => {
   const context = useContext(ThemeContext);
   const dark = context.theme === 'dark' ? styles.dark : '';
+  const router = useRouter();
 
   return (
     <div className={`${styles.heroInfo} ${dark}`} role="cardInfo">
@@ -23,6 +25,7 @@ const HeroInfo = (props: HeroInfo) => {
           src="../close-red.png"
           alt="close"
           role="closeBtn"
+          onClick={() => router.back()}
         />
       </button>
       <img className={styles.heroInfo__img} src={props.heroInfo?.img} alt={props.heroInfo?.name} />

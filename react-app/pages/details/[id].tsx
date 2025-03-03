@@ -1,9 +1,9 @@
 import { NextPageContext } from 'next';
-import HeroesList, { heroData } from '../../components/heroesList/HeroesList';
-import MainLayout from '../../components/mainLayout/MainLayout';
+import { heroData } from '../../components/heroesList/HeroesList';
 import { _hash, _ts, apiConstants } from '../../api/apiConstants';
 import { transformHeroData } from '../../helpers/getTransformedData';
 import HeroInfo from '../../components/heroInfo/HeroInfo';
+import MainLayout from '../../components/mainLayout/MainLayout';
 
 export type ApiResponse = {
   data: {
@@ -17,12 +17,15 @@ export type ApiResponse = {
 };
 
 export async function getServerSideProps({ query }: NextPageContext) {
-  const detailedRes = await fetch(`${apiConstants._apiBase}/${query.id}?${_ts}&${apiConstants._apiKey}&${_hash}`);
+  const offset = query.id?.slice(-2);
+  const id = query.id?.slice(0, -2);
+  const detailedRes = await fetch(`${apiConstants._apiBase}/${id}?${_ts}&${apiConstants._apiKey}&${_hash}`);
   const mainRes = await fetch(
-    `${apiConstants._apiBase}?limit=8&offset=${query.offset}&${_ts}&${apiConstants._apiKey}&${_hash}`
+    `${apiConstants._apiBase}?limit=8&offset=${offset}&${_ts}&${apiConstants._apiKey}&${_hash}`
   );
   const response = await detailedRes.json();
   const mainResponse = await mainRes.json();
+
   return {
     props: {
       detailedData: response.data,
@@ -34,10 +37,8 @@ export async function getServerSideProps({ query }: NextPageContext) {
 const Details = ({ data, detailedData }: ApiResponse) => {
   return (
     <>
-      <MainLayout>
-        <HeroesList data={{ data }}>
-          <HeroInfo heroInfo={transformHeroData(detailedData.results[0])} />
-        </HeroesList>
+      <MainLayout data={{ data }}>
+        <HeroInfo heroInfo={transformHeroData(detailedData.results[0])} />
       </MainLayout>
     </>
   );

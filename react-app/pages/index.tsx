@@ -1,15 +1,7 @@
 import { NextPageContext } from 'next';
-import HeroesList, { heroData } from '../components/heroesList/HeroesList';
-import MainLayout from '../components/mainLayout/MainLayout';
 import { _hash, _ts, apiConstants } from '../api/apiConstants';
-
-type ApiResp = {
-  data: {
-    results: heroData[];
-    total: number;
-  };
-  theme: string;
-};
+import MainLayout from '../components/mainLayout/MainLayout';
+import { ApiResponse } from '../components/heroesList/HeroesList';
 
 export async function getServerSideProps({ query }: NextPageContext) {
   const resp = await fetch(
@@ -22,13 +14,10 @@ export async function getServerSideProps({ query }: NextPageContext) {
     },
   };
 }
-
-const Index = ({ data }: ApiResp) => {
+const Index = ({ data }: ApiResponse) => {
   return (
     <>
-      <MainLayout>
-        <HeroesList data={{ data }} />
-      </MainLayout>
+      <MainLayout data={{ data }} />
     </>
   );
 };

@@ -18,6 +18,7 @@ const HeroesListItem = (props: HeroesListItemProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const dark = context.theme === 'dark' ? styles.dark : '';
+  const offset = router.asPath.slice(-2);
 
   useEffect(() => {
     setIsChecked(false);
@@ -35,7 +36,16 @@ const HeroesListItem = (props: HeroesListItemProps) => {
         checked={isChecked}
         onChange={props.onCheckboxClick}
       />
-      <Link className={styles.hero__item} href={'details/[id]'} as={`/details/${props.itemInfo.id}${router.asPath}`}>
+      <Link
+        className={styles.hero__item}
+        href={`/details/[id]`}
+        as={`/details/${props.itemInfo.id}${offset}${router.asPath}`}
+        onClick={(e) => {
+          if (router.asPath.includes('details')) {
+            e.preventDefault();
+          }
+        }}
+      >
         <Image priority={true} src={props.itemInfo.img} alt={props.itemInfo.name} width={100} height={100} />
         <div className={styles.hero__name}>{props.itemInfo.name}</div>
         <div className={styles.hero__descr}>{props.itemInfo.description}</div>

@@ -3,12 +3,15 @@ import Header from '../header/Header';
 import ControlPanel from '../controlPanel/ControlPanel';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
+import HeroesList, { ApiResponse } from '../heroesList/HeroesList';
 
 interface MainLayout {
   children?: React.ReactNode;
   title?: string;
+  data: ApiResponse;
 }
-const MainLayout = ({ children, title = 'Main' }: MainLayout) => {
+
+const MainLayout = ({ children, title = 'Main', data }: MainLayout) => {
   const context = useContext(ThemeContext);
 
   return (
@@ -24,7 +27,7 @@ const MainLayout = ({ children, title = 'Main' }: MainLayout) => {
         <div className="appContainer">
           <Header />
           <ControlPanel />
-          {children}
+          <HeroesList data={data}>{children}</HeroesList>
         </div>
       </main>
     </>
