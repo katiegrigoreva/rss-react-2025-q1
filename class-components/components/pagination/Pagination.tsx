@@ -13,7 +13,6 @@ const Pagination = ({ totalHeroes }: paginationProps) => {
   for (let i = 1; i <= Math.ceil(totalHeroes / heroesPerPage); i += 1) {
     pageNumbers.push(i);
   }
-  console.log(router);
 
   return (
     <ul className={styles.pagination} role="pagination">

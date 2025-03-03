@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styles from './heroInfo.module.css';
-import { ThemeContext } from '../../src/context/ThemeContext';
+import { ThemeContext } from '../../context/ThemeContext';
 import { heroData } from '../heroesList/HeroesList';
 import Image from 'next/image';
 

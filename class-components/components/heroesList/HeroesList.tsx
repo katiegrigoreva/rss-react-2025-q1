@@ -3,7 +3,7 @@ import styles from './heroesList.module.css';
 import HeroesListItem from './HeroesListItem';
 import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../../src/slices/heroesListSlice';
 import { useDispatch } from 'react-redux';
-import { getTransformedData } from '../../src/helpers/getTransformedData';
+import { getTransformedData } from '../../helpers/getTransformedData';
 import Pagination from '../pagination/Pagination';
 
 export type HeroesListProps = {
@@ -33,18 +33,6 @@ export type ApiResponse = {
     total: number;
   };
 };
-
-/* export async function getServerSideProps({ query }: NextPageContext) {
-  const res = await fetch(
-    `${apiConstants._apiBase}?limit=8&offset=${query.offset}&${_ts}&${apiConstants._apiKey}&${_hash}`
-  );
-  const response = await res.json();
-  return {
-    props: {
-      data: response.data,
-    },
-  };
-} */
 
 const HeroesList = ({ data, children }: HeroesList) => {
   const dispatch = useDispatch();
@@ -81,7 +69,6 @@ const HeroesList = ({ data, children }: HeroesList) => {
 
   const items = renderItems(heroes);
   const content = items.length !== 0 ? items : <h3 className={styles.h3}>No heroes found</h3>;
-
   return (
     <>
       <section className={styles.hero} role="cardList">

@@ -1,5 +1,5 @@
 import { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../src/context/ThemeContext';
+import { ThemeContext } from '../../context/ThemeContext';
 import { heroData } from '../../api/apiSlice';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { RootState } from '../../src/store';
@@ -18,6 +18,7 @@ const HeroesListItem = (props: HeroesListItemProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const dark = context.theme === 'dark' ? styles.dark : '';
+
   useEffect(() => {
     setIsChecked(false);
     selectedCheckboxes.forEach((checkbox) => {

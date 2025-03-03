@@ -2,7 +2,7 @@ import { NextPageContext } from 'next';
 import HeroesList, { heroData } from '../../components/heroesList/HeroesList';
 import MainLayout from '../../components/mainLayout/MainLayout';
 import { _hash, _ts, apiConstants } from '../../api/apiConstants';
-import { transformHeroData } from '../../src/helpers/getTransformedData';
+import { transformHeroData } from '../../helpers/getTransformedData';
 import HeroInfo from '../../components/heroInfo/HeroInfo';
 
 export type ApiResponse = {

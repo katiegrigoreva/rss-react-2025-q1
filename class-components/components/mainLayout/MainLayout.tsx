@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Header from '../header/Header';
 import ControlPanel from '../controlPanel/ControlPanel';
-import { ThemeContext } from '../../src/context/ThemeContext';
 import { useContext } from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
 
 interface MainLayout {
   children?: React.ReactNode;

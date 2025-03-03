@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styles from './themeSelector.module.css';
-import { ThemeContext } from '../../src/context/ThemeContext';
+import { ThemeContext } from '../../context/ThemeContext';
 
 export function ThemeSelector() {
   const context = useContext(ThemeContext);
@@ -8,11 +8,25 @@ export function ThemeSelector() {
 
   return (
     <div className={`${styles.themeTabs} ${dark}`}>
-      <input type="radio" id="radio-1" className={styles.input} name="tabs" onChange={context.toggleTheme} />
+      <input
+        type="radio"
+        id="radio-1"
+        className={styles.input}
+        name="tabs"
+        onChange={context.toggleTheme}
+        checked={context.theme === 'light' ? true : false}
+      />
       <label className={styles.tab} htmlFor="radio-1">
         Light
       </label>
-      <input type="radio" id="radio-2" className={styles.input} name="tabs" onChange={context.toggleTheme} />
+      <input
+        type="radio"
+        id="radio-2"
+        className={styles.input}
+        name="tabs"
+        onChange={context.toggleTheme}
+        checked={context.theme === 'dark' ? true : false}
+      />
       <label className={styles.tab} htmlFor="radio-2">
         Dark
       </label>
