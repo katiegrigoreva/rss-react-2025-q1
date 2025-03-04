@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import '../styles/global.css';
 import { ThemeProvider } from '../context/ThemeContext';
 import { Provider } from 'react-redux';
-import store from '../src/store';
+import store from '../store';
 import Spinner from '../components/spinner/Spinner';
 import { Router } from 'next/router';
 import { useEffect, useState } from 'react';

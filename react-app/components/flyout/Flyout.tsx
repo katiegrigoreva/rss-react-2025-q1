@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import './flyout.css';
-import { useAppSelector } from '../../../hooks/reduxHooks';
+import styles from './flyout.module.css';
+import search from '../controlPanel/controlPanel.module.css';
+import { useAppSelector } from '../../hooks/reduxHooks';
 import { RootState } from '../../store/index';
 import { useDispatch } from 'react-redux';
 import { unselectAll } from '../../slices/heroesListSlice';
@@ -36,13 +37,13 @@ export const Flyout = () => {
   };
 
   return (
-    <div className={selectedHeroes.length && isVisible ? 'flyout' : 'flyout__invisible'}>
-      <img onClick={onClose} className="flyout__close" src="../../../assets/close-red.png" alt="close" />
-      <button className="searchPanel__btn" onClick={onUnselectAll}>
+    <div className={selectedHeroes.length && isVisible ? styles.flyout : styles.flyout__invisible}>
+      <img onClick={onClose} className={styles.flyout__close} src="../close-red.png" alt="close" />
+      <button className={search.button} onClick={onUnselectAll}>
         Unselect all
       </button>
       <p>Total: {selectedHeroes.length}</p>
-      <button className="searchPanel__btn" disabled>
+      <button className={search.button} disabled>
         <a href={getURL()} download={`${selectedHeroes.length}_marvelHeroes.csv`}>
           Download
         </a>

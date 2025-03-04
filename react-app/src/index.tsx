@@ -4,7 +4,7 @@ import './style/style.css';
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary';
 import { ThemeProvider } from '../context/ThemeContext';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from '../store';
 
 const container = document.getElementById('root');
 if (container) {

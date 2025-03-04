@@ -2,7 +2,7 @@ import { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { heroData } from '../../api/apiSlice';
 import { useAppSelector } from '../../hooks/reduxHooks';
-import { RootState } from '../../src/store';
+import { RootState } from '../../store';
 import styles from '../heroesList/heroesList.module.css';
 import Image from 'next/image';
 import Link from 'next/link';

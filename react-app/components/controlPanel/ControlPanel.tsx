@@ -1,14 +1,8 @@
-'use client';
-
 import { useContext } from 'react';
 import styles from './controlPanel.module.css';
 import { ThemeContext } from '../../context/ThemeContext';
 import { ThemeSelector } from '../themeSelector/ThemeSelector';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-
-/* export type SearchPanelProps = {
-  onUpdateSearch: (arg: string) => void;
-}; */
 
 const ControlPanel = () => {
   const context = useContext(ThemeContext);

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../../src/store';
+import store from '../../store';
 import MainLayout from '../mainLayout/MainLayout';
 
 const localStorageMock = (function () {
