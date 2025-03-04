@@ -7,6 +7,7 @@ import styles from '../heroesList/heroesList.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 type HeroesListItemProps = {
   itemInfo: heroData;
@@ -18,15 +19,14 @@ const HeroesListItem = (props: HeroesListItemProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const dark = context.theme === 'dark' ? styles.dark : '';
-  const offset = () => {
-    if (router.asPath === '/') {
-      return '00';
-    } else if (router.asPath.slice(-2).includes('=')) {
-      return router.asPath.slice(-1);
-    } else {
-      return router.asPath.slice(-2);
-    }
-  };
+  const offset = useSearchParams().get('offset');
+  const nameStartsWith = useSearchParams().get('nameStartsWith');
+  const searchParamsString = nameStartsWith
+    ? `/details/${props.itemInfo.id}?nameStartsWith=${nameStartsWith}&limit=8&offset=${offset}`
+    : `/details/${props.itemInfo.id}?limit=8&offset=${offset}`;
+  const searchParamshref = nameStartsWith
+    ? `/details/[id]?nameStartsWith=${nameStartsWith}&limit=8&offset=${offset}`
+    : `/details/[id]?limit=8&offset=${offset}`;
 
   useEffect(() => {
     setIsChecked(false);
@@ -46,8 +46,8 @@ const HeroesListItem = (props: HeroesListItemProps) => {
       />
       <Link
         className={styles.hero__item}
-        href={`/details/[id]`}
-        as={`/details/${props.itemInfo.id}${offset()}${router.asPath}`}
+        href={searchParamshref}
+        as={searchParamsString}
         onClick={(e) => {
           if (router.asPath.includes('details')) {
             e.preventDefault();

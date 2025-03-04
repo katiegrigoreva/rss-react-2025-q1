@@ -16,14 +16,13 @@ export type ApiResponse = {
   };
 };
 
-export async function getServerSideProps({ query, req }: NextPageContext) {
-  const offset = req?.headers.referer?.slice(-2).includes('=') ? query.id?.slice(-1) : query.id?.slice(-2);
-  const id = req?.headers.referer?.slice(-2).includes('=') ? query.id?.slice(0, -1) : query.id?.slice(0, -2);
-
-  const detailedRes = await fetch(`${apiConstants._apiBase}/${id}?${_ts}&${apiConstants._apiKey}&${_hash}`);
-  const mainRes = await fetch(
-    `${apiConstants._apiBase}?limit=8&offset=${offset}&${_ts}&${apiConstants._apiKey}&${_hash}`
-  );
+export async function getServerSideProps({ query }: NextPageContext) {
+  const request = query.nameStartsWith
+    ? `${apiConstants._apiBase}?nameStartsWith=${query.nameStartsWith}&limit=8&offset=${query.offset}&${_ts}&${apiConstants._apiKey}&${_hash}`
+    : `${apiConstants._apiBase}?limit=8&offset=${query.offset}&${_ts}&${apiConstants._apiKey}&${_hash}`;
+  console.log(query.offset);
+  const detailedRes = await fetch(`${apiConstants._apiBase}/${query.id}?${_ts}&${apiConstants._apiKey}&${_hash}`);
+  const mainRes = await fetch(request);
   const response = await detailedRes.json();
   const mainResponse = await mainRes.json();
 
