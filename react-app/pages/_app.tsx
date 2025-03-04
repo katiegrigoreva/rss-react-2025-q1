@@ -13,26 +13,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     Router.events.on('routeChangeStart', () => setLoading(true));
     Router.events.on('routeChangeComplete', () => setLoading(false));
-    Router.events.on('routeChangeError', () => {
-      setLoading(false);
-      console.log('error');
-    });
+    Router.events.on('routeChangeError', () => setLoading(false));
+    return () => {
+      Router.events.off('routeChangeStart', () => setLoading(true));
+      Router.events.off('routeChangeComplete', () => setLoading(false));
+      Router.events.off('routeChangeError', () => setLoading(false));
+    };
   }, [Router.events]);
-  /* const handleStart = () => {
-    setOnLoading(true);
-  };
-
-  const handleEnd = () => {
-    setOnLoading(false);
-  };
-
-  const handleError = () => {
-    console.log('routeChangeError');
-    setOnLoading(false);
-  };
-  router.events?.on('routeChangeStart', handleStart);
-  router.events?.on('routeChangeComplete', handleEnd);
-  router.events?.on('routeChangeError', handleError); */
 
   return (
     <>

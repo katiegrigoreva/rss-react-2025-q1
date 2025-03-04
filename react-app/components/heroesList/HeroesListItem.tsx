@@ -18,7 +18,15 @@ const HeroesListItem = (props: HeroesListItemProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const dark = context.theme === 'dark' ? styles.dark : '';
-  const offset = router.asPath.slice(-2);
+  const offset = () => {
+    if (router.asPath === '/') {
+      return '00';
+    } else if (router.asPath.slice(-2).includes('=')) {
+      return router.asPath.slice(-1);
+    } else {
+      return router.asPath.slice(-2);
+    }
+  };
 
   useEffect(() => {
     setIsChecked(false);
@@ -39,7 +47,7 @@ const HeroesListItem = (props: HeroesListItemProps) => {
       <Link
         className={styles.hero__item}
         href={`/details/[id]`}
-        as={`/details/${props.itemInfo.id}${offset}${router.asPath}`}
+        as={`/details/${props.itemInfo.id}${offset()}${router.asPath}`}
         onClick={(e) => {
           if (router.asPath.includes('details')) {
             e.preventDefault();
