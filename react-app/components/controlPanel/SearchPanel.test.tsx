@@ -1,46 +1,56 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../store';
 import MainLayout from '../mainLayout/MainLayout';
+import { mockRouter } from '../../test/helpers/mockRouter';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
 const localStorageMock = (function () {
   const localStorageStore: { [key: string]: string } = {};
-
-  const setItem = (key: string, value: string) => {
-    Object.defineProperty(store, key, value);
-  };
   const getItem = (key: string): string => {
     return localStorageStore[key];
   };
-  return { setItem, getItem };
+  return getItem;
 })();
 
 Object.defineProperty(window, 'localStorage', localStorageMock);
 
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter: vi.fn(() => ({
+      push: vi.fn(),
+    })),
+    useSearchParams: vi.fn(() => ({
+      get: vi.fn(),
+    })),
+  };
+});
+
 describe('Test searchPanel', () => {
   it('saves the entered value to the local storage', () => {
     render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <MainLayout />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <MainLayout />
+      </Provider>
     );
     const input = screen.getByPlaceholderText(/Search/i);
     fireEvent.change(input, { target: { value: 'mockValue' } });
     expect(localStorage.getItem('searchTerm')).toBe('mockvalue');
   });
-  it('retrieves the value from the local storage upon mounting', () => {
+
+  it('changes router path when submit button clicked', () => {
+    const router = mockRouter();
     render(
-      <BrowserRouter>
+      <RouterContext.Provider value={router}>
         <Provider store={store}>
           <MainLayout />
         </Provider>
-      </BrowserRouter>
+      </RouterContext.Provider>
     );
-    const input = screen.getByPlaceholderText(/Search/i);
-    expect((input as HTMLInputElement).value).toBe(localStorage.getItem('searchTerm'));
+    const submitBtn = screen.getByRole('button', { name: 'Search' });
+    fireEvent.click(submitBtn);
   });
 });

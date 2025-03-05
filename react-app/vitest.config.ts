@@ -8,15 +8,15 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  assetsInclude: ['**/*.jpg', '**/*.gif'],
   plugins: [react()],
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: 'src/test/setup.ts',
+    setupFiles: 'test/setup.ts',
     coverage: {
       provider: 'v8',
-      exclude: ['App.tsx'],
+      include: ['**/*.tsx'],
+      exclude: ['**/node_modules/**', '**/*.test.tsx', '**/*.spec.tsx', 'test/setup.ts'],
     },
   },
 });

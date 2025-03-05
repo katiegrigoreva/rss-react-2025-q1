@@ -23,7 +23,7 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src", "./dist/types/**/*","./next-env.d.ts", "pages", "components", "api", "hooks", "context", "helpers", "store", "test" ],
+  "include": ["./src", "./dist/types/**/*","./next-env.d.ts", "pages", "components", "api", "hooks", "context", "helpers", "store", "test", "slices" ],
   "exclude": ["./node_modules"]
 
 }

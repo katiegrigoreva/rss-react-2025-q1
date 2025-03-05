@@ -15,6 +15,7 @@ const ControlPanel = () => {
     <section className={styles.control}>
       <form className={styles.search}>
         <input
+          role="textbox"
           type="search"
           className={context.theme === 'dark' ? `${styles.input} ${styles.dark}` : styles.input}
           placeholder="Search your superhero"

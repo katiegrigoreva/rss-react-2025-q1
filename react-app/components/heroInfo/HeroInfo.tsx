@@ -5,27 +5,25 @@ import { heroData } from '../heroesList/HeroesList';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-interface HeroInfo {
+export type heroInfo = {
   heroInfo: heroData;
-}
+};
 
-const HeroInfo = (props: HeroInfo) => {
+const HeroInfo = (props: heroInfo) => {
   const context = useContext(ThemeContext);
   const dark = context.theme === 'dark' ? styles.dark : '';
   const router = useRouter();
 
   return (
     <div className={`${styles.heroInfo} ${dark}`} role="cardInfo">
-      <button onClick={() => {}}>
+      <button onClick={() => router.back()} role="closeBtn">
         <Image
           priority={true}
           width={100}
           height={100}
           className={styles.heroInfo__close}
-          src="../close-red.png"
+          src="/close-red.png"
           alt="close"
-          role="closeBtn"
-          onClick={() => router.back()}
         />
       </button>
       <img className={styles.heroInfo__img} src={props.heroInfo?.img} alt={props.heroInfo?.name} />

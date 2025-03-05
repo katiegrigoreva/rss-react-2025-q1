@@ -1,12 +1,12 @@
 import { BaseSyntheticEvent } from 'react';
 import styles from './heroesList.module.css';
 import HeroesListItem from './HeroesListItem';
-import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../../slices/heroesListSlice';
+import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../../slices/heroesListSlice.ts';
 import { useDispatch } from 'react-redux';
 import { getTransformedData } from '../../helpers/getTransformedData';
-import Pagination from '../pagination/Pagination';
 import { useRouter } from 'next/router';
 import { Flyout } from '../flyout/Flyout';
+import Pagination from '../pagination/Pagination.tsx';
 
 export type HeroesListProps = {
   heroesList: heroData[];

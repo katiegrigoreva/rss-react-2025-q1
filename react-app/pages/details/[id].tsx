@@ -1,5 +1,5 @@
 import { NextPageContext } from 'next';
-import { heroData } from '../../components/heroesList/HeroesList';
+import HeroesList, { heroData } from '../../components/heroesList/HeroesList';
 import { _hash, _ts, apiConstants } from '../../api/apiConstants';
 import { transformHeroData } from '../../helpers/getTransformedData';
 import HeroInfo from '../../components/heroInfo/HeroInfo';
@@ -39,8 +39,10 @@ export async function getServerSideProps({ query }: NextPageContext) {
 const Details = ({ data, detailedData }: ApiResponse) => {
   return (
     <>
-      <MainLayout data={{ data }}>
-        <HeroInfo heroInfo={transformHeroData(detailedData.results[0])} />
+      <MainLayout>
+        <HeroesList data={{ data }}>
+          <HeroInfo heroInfo={transformHeroData(detailedData.results[0])} />
+        </HeroesList>
       </MainLayout>
     </>
   );

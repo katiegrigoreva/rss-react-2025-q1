@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { _hash, _ts, apiConstants } from '../api/apiConstants';
 import MainLayout from '../components/mainLayout/MainLayout';
-import { ApiResponse } from '../components/heroesList/HeroesList';
+import HeroesList, { ApiResponse } from '../components/heroesList/HeroesList';
 
 export async function getServerSideProps({ query }: NextPageContext) {
   const request = query.nameStartsWith
@@ -18,7 +18,9 @@ export async function getServerSideProps({ query }: NextPageContext) {
 const Index = ({ data }: ApiResponse) => {
   return (
     <>
-      <MainLayout data={{ data }} />
+      <MainLayout>
+        <HeroesList data={{ data }} />
+      </MainLayout>
     </>
   );
 };

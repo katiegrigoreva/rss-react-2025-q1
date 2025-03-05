@@ -1,10 +1,9 @@
 import { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
-import { heroData } from '../../api/apiSlice';
+import { heroData } from './HeroesList';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { RootState } from '../../store';
 import styles from '../heroesList/heroesList.module.css';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
@@ -54,7 +53,7 @@ const HeroesListItem = (props: HeroesListItemProps) => {
           }
         }}
       >
-        <Image priority={true} src={props.itemInfo.img} alt={props.itemInfo.name} width={100} height={100} />
+        <img src={props.itemInfo.img} alt={props.itemInfo.name} width={100} height={100} />
         <div className={styles.hero__name}>{props.itemInfo.name}</div>
         <div className={styles.hero__descr}>{props.itemInfo.description}</div>
       </Link>
