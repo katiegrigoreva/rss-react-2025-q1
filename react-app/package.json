@@ -10,7 +10,7 @@
     "start": "next start",
     "format:fix": "prettier  --write ./src",
     "lint": "eslint .",
-    "prepare": "cd .. && husky class-components/.husky",
+    "prepare": "cd .. && husky react-app/.husky",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },

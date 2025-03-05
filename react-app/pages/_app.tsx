@@ -6,6 +6,7 @@ import store from '../store';
 import Spinner from '../components/spinner/Spinner';
 import { Router } from 'next/router';
 import { useEffect, useState } from 'react';
+import ErrorBoundary from '../components/errorBoundary/ErrorBoundary';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false);
@@ -26,11 +27,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       {loading ? (
         <Spinner />
       ) : (
-        <Provider store={store}>
-          <ThemeProvider>
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </Provider>
+        <ErrorBoundary>
+          <Provider store={store}>
+            <ThemeProvider>
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </Provider>
+        </ErrorBoundary>
       )}
     </>
   );
