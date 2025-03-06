@@ -16,7 +16,12 @@ const HeroInfo = (props: heroInfo) => {
 
   return (
     <div className={`${styles.heroInfo} ${dark}`} role="cardInfo">
-      <button onClick={() => router.back()} role="closeBtn">
+      <button
+        onClick={() => {
+          router.push(`/?limit=8&offset=${router.query.offset}`, undefined, { shallow: true });
+        }}
+        role="closeBtn"
+      >
         <Image
           priority={true}
           width={100}

@@ -39,6 +39,6 @@ describe('Tests for the Detailed Card component', () => {
       </RouterContext.Provider>
     );
     fireEvent.click(screen.getByRole('closeBtn'));
-    expect(router.back).toHaveBeenCalledOnce();
+    expect(router.push).toHaveBeenCalledOnce();
   });
 });
