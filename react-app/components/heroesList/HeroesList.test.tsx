@@ -40,6 +40,7 @@ vi.mock('next/navigation', async () => {
     ...actual,
     useRouter: vi.fn(() => ({
       push: vi.fn(),
+      on: vi.fn(),
     })),
     useSearchParams: vi.fn(() => ({
       get: vi.fn(),
@@ -86,11 +87,10 @@ describe('Test heroesList component', () => {
   });
 
   it('opens a detailed card component when clicking on a card', () => {
-    const mockFn = vi.fn();
     render(
       <RouterContext.Provider value={router}>
         <Provider store={store}>
-          <HeroesListItem itemInfo={mockHeroData.data.results[0]} onCheckboxClick={mockFn} />
+          <HeroesList data={mockHeroData}></HeroesList>
         </Provider>
       </RouterContext.Provider>
     );

@@ -1,8 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../store';
 import MainLayout from '../mainLayout/MainLayout';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('next/navigation', async () => {
   const actual = await vi.importActual('next/navigation');
@@ -45,5 +46,30 @@ describe('Test main layout', () => {
       </Provider>
     );
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
+  });
+});
+
+describe('when page is initialized', () => {
+  it('uses light theme by default', () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <MainLayout />
+        </ThemeProvider>
+      </Provider>
+    );
+    expect(screen.getByTestId('light').hasAttribute('checked')).toBe(true);
+  });
+  it('uses dark theme when toggled', () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <MainLayout />
+        </ThemeProvider>
+      </Provider>
+    );
+    fireEvent.click(screen.getByTestId('dark'));
+    screen.debug();
+    expect(screen.getByRole('banner')).toHaveClass(/dark/i);
   });
 });

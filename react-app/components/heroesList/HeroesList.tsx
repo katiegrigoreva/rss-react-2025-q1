@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent } from 'react';
 import styles from './heroesList.module.css';
 import HeroesListItem from './HeroesListItem';
-import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../../slices/heroesListSlice.ts';
+import { selectCheckbox, selectHero, unselectCheckbox, unselectHero } from '../../slices/heroesListSlice';
 import { useDispatch } from 'react-redux';
 import { getTransformedData } from '../../helpers/getTransformedData';
 import { useRouter } from 'next/router';

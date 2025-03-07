@@ -11,6 +11,7 @@ export function ThemeSelector() {
       <input
         type="radio"
         id="radio-1"
+        data-testid="light"
         className={styles.input}
         name="tabs"
         onChange={context.toggleTheme}
@@ -22,6 +23,7 @@ export function ThemeSelector() {
       <input
         type="radio"
         id="radio-2"
+        data-testid="dark"
         className={styles.input}
         name="tabs"
         onChange={context.toggleTheme}

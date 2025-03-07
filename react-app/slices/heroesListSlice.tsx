@@ -1,14 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { heroData } from '../../api/apiSlice';
+import { heroData } from '../components/heroesList/HeroesList';
 
 export type SliceState = {
-  heroesListData: heroData[];
   selectedHeroes: heroData[];
   selectedCheckboxes: string[];
 };
 
 const initialState: SliceState = {
-  heroesListData: [],
   selectedHeroes: [],
   selectedCheckboxes: [],
 };
@@ -17,9 +15,6 @@ const heroesSlice = createSlice({
   name: 'heroes',
   initialState,
   reducers: {
-    heroesFetched: (state, action) => {
-      state.heroesListData = action.payload;
-    },
     selectHero: (state, action) => {
       state.selectedHeroes.push(action.payload);
     },
@@ -43,4 +38,4 @@ const { actions, reducer } = heroesSlice;
 
 export default reducer;
 
-export const { heroesFetched, selectHero, unselectHero, unselectAll, selectCheckbox, unselectCheckbox } = actions;
+export const { selectHero, unselectHero, unselectAll, selectCheckbox, unselectCheckbox } = actions;
