@@ -69,7 +69,6 @@ describe('when page is initialized', () => {
       </Provider>
     );
     fireEvent.click(screen.getByTestId('dark'));
-    screen.debug();
     expect(screen.getByRole('banner')).toHaveClass(/dark/i);
   });
 });

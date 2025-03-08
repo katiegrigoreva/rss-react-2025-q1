@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../store';
 import MainLayout from '../mainLayout/MainLayout';
-import { mockRouter } from '../../test/helpers/mockRouter';
+import { customMockRouter } from '../../test/helpers/mockRouter';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
 const localStorageMock = (function () {
@@ -42,7 +42,7 @@ describe('Test searchPanel', () => {
   });
 
   it('changes router path when submit button clicked', () => {
-    const router = mockRouter();
+    const router = customMockRouter();
     render(
       <RouterContext.Provider value={router}>
         <Provider store={store}>

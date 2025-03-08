@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Index from '.';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
-import { mockRouter } from '../test/helpers/mockRouter';
+import { customMockRouter } from '../test/helpers/mockRouter';
 import { Provider } from 'react-redux';
 import store from '../store';
 
@@ -33,7 +33,7 @@ const mockData = [
     img: 'http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg',
   },
 ];
-const router = mockRouter();
+const router = customMockRouter();
 
 describe('Test home page', () => {
   it('renders heading', () => {

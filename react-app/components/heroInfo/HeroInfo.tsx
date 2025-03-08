@@ -28,7 +28,7 @@ const HeroInfo = (props: heroInfo) => {
           height={100}
           className={styles.heroInfo__close}
           src="/close-red.png"
-          alt="close"
+          alt="closeInfo"
         />
       </button>
       <img className={styles.heroInfo__img} src={props.heroInfo?.img} alt={props.heroInfo?.name} />

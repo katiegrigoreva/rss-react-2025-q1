@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import HeroInfo, { heroInfo } from './HeroInfo';
 import store from '../../store';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
-import { mockRouter } from '../../test/helpers/mockRouter';
+import { customMockRouter } from '../../test/helpers/mockRouter';
 
 describe('Tests for the Detailed Card component', () => {
   const mockHeroData: heroInfo = {
@@ -18,7 +18,7 @@ describe('Tests for the Detailed Card component', () => {
 
   it('correctly displays the detailed card data', () => {
     render(
-      <RouterContext.Provider value={mockRouter()}>
+      <RouterContext.Provider value={customMockRouter()}>
         <Provider store={store}>
           <HeroInfo heroInfo={mockHeroData.heroInfo}></HeroInfo>
         </Provider>
@@ -29,7 +29,7 @@ describe('Tests for the Detailed Card component', () => {
   });
 
   it('hides the component when clicking the close button', () => {
-    const router = mockRouter();
+    const router = customMockRouter();
 
     render(
       <RouterContext.Provider value={router}>

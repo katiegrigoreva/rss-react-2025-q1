@@ -3,9 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import HeroesList, { ApiResponse } from './HeroesList';
 import store from '../../store';
-import { mockRouter } from '../../test/helpers/mockRouter';
+import { customMockRouter } from '../../test/helpers/mockRouter';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import HeroesListItem from './HeroesListItem';
+import mockRouter from 'next-router-mock';
+import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 
 const mockHeroData: ApiResponse = {
   data: {
@@ -47,7 +49,7 @@ vi.mock('next/navigation', async () => {
     })),
   };
 });
-const router = mockRouter();
+const router = customMockRouter();
 
 describe('Test heroesList component', () => {
   it('renders proper number of cards', () => {
@@ -109,5 +111,20 @@ describe('Test heroesList component', () => {
     );
     fireEvent.click(screen.getByRole('checkbox'));
     expect(mockFn).toHaveBeenCalledOnce();
+  });
+  it('should parse dynamic route', () => {
+    mockRouter.useParser(createDynamicRouteParser(['/details/[id]']));
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <Provider store={store}>
+          <HeroesList data={mockHeroData}></HeroesList>
+        </Provider>
+      </RouterContext.Provider>
+    );
+    fireEvent.click(screen.getByText('mockHero1'));
+    expect(mockRouter).toMatchObject({
+      pathname: '/details/[id]',
+      query: { id: '1' },
+    });
   });
 });

@@ -1,7 +1,7 @@
 import { NextRouter } from 'next/router';
 import { vi } from 'vitest';
 
-export function mockRouter(router?: Partial<NextRouter>): NextRouter {
+export function customMockRouter(router?: Partial<NextRouter>): NextRouter {
   return {
     basePath: '',
     pathname: '/',

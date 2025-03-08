@@ -3,13 +3,13 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import Pagination from './Pagination';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
-import { mockRouter } from '../../test/helpers/mockRouter';
+import { customMockRouter } from '../../test/helpers/mockRouter';
 
 describe('Pagination component', () => {
   it('updates URL query parameter when page changes', () => {
     const mockHeroes = 30;
     render(
-      <RouterContext.Provider value={mockRouter({ asPath: '/?limit=8&offset=0' })}>
+      <RouterContext.Provider value={customMockRouter({ asPath: '/?limit=8&offset=0' })}>
         <SearchParamsContext.Provider value={new URLSearchParams('/?limit=8&offset=0')}>
           <Pagination totalHeroes={mockHeroes} />
         </SearchParamsContext.Provider>
