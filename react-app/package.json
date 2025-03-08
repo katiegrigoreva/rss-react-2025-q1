@@ -10,6 +10,7 @@
     "start": "next start",
     "format:fix": "prettier  --write ./src",
     "lint": "eslint .",
+    "next:lint": "next lint",
     "prepare": "cd .. && husky react-app/.husky",
     "test": "vitest",
     "coverage": "vitest run --coverage"
@@ -29,6 +30,7 @@
     "vitest": "^2.0.5"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^15.2.1",
     "@reduxjs/toolkit": "^2.2.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -40,6 +42,7 @@
     "@vitest/coverage-v8": "^2.0.5",
     "cookies-next": "^5.1.0",
     "eslint": "^8.57.0",
+    "eslint-config-next": "^15.2.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.3",
