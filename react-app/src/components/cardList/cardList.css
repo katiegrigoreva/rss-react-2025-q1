@@ -1,0 +1,28 @@
+.main {
+  margin: 0 auto;
+  max-width: 80%;
+  min-width: 390px;
+}
+.cardList {
+  margin: 20px;
+}
+.cardList__item {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 5px;
+  width: 70%;
+  list-style: none;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.cardList__item:hover {
+  scale: 1.05;
+}
+
+.cardList__item img {
+  height: 100%;
+  width: 100px;
+}
