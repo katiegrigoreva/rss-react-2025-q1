@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ApiConnector, { CountryData } from '../../api/ApiConnector';
 import CardList from '../cardList/CardList';
 import Spinner from '../spinner/Spinner';
+import ControlPanel from '../controlpanel/ControlPanel';
 
 const MainPage = () => {
   const apiConnector = new ApiConnector();
@@ -29,6 +30,7 @@ const MainPage = () => {
     <>
       <section className="main">
         {spinner}
+        <ControlPanel />
         <CardList cardList={cardList} />
       </section>
     </>
