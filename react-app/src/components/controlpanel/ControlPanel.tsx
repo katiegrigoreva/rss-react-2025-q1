@@ -1,15 +1,20 @@
 import { BaseSyntheticEvent, useState } from 'react';
-import './controlPanel.css';
 import { useNavigate } from 'react-router';
 
-const ControlPanel = () => {
+type ControlPanel = {
+  handleNameSort: (arg: boolean) => void;
+  handlePopulationSort: (arg: boolean) => void;
+};
+
+const ControlPanel = (props: ControlPanel) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [isNameUp, setIsNameUp] = useState(true);
-  const [isPopulationUp, setIsPopulationUp] = useState(true);
+  const [isNameUp, setIsNameUp] = useState<boolean>(true);
+  const [isPopulationUp, setIsPopulationUp] = useState<boolean>(true);
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
 
   const toggleNameSort = (current: boolean) => {
+    searchParams.delete('sortPopulation');
     if (current === true) {
       setIsNameUp(false);
       searchParams.set('sortName', 'Down');
@@ -21,6 +26,7 @@ const ControlPanel = () => {
   };
 
   const togglePopulationSort = (current: boolean) => {
+    searchParams.delete('sortName');
     if (current === true) {
       setIsPopulationUp(false);
       searchParams.set('sortPopulation', 'Down');
@@ -57,6 +63,8 @@ const ControlPanel = () => {
       <select
         className="searchButton"
         onChange={(e: BaseSyntheticEvent) => {
+          searchParams.delete('sortName');
+          searchParams.delete('sortPopulation');
           searchParams.set('region', `${e.target.value}`);
           navigate(`/?${searchParams}`);
         }}
@@ -70,10 +78,22 @@ const ControlPanel = () => {
         <option value="Antarctic">Antarctic</option>
       </select>
       <p>Sort by:</p>
-      <button className="searchButton" onClick={() => toggleNameSort(isNameUp)}>
+      <button
+        className="searchButton"
+        onClick={() => {
+          toggleNameSort(isNameUp);
+          props.handleNameSort(isNameUp);
+        }}
+      >
         {isNameUp ? '↑ name' : '↓ name'}
       </button>
-      <button className="searchButton" onClick={() => togglePopulationSort(isPopulationUp)}>
+      <button
+        className="searchButton"
+        onClick={() => {
+          togglePopulationSort(isPopulationUp);
+          props.handlePopulationSort(isPopulationUp);
+        }}
+      >
         {isPopulationUp ? '↑ population' : '↓ population'}
       </button>
     </div>
