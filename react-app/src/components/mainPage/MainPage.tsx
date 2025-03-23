@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ApiConnector, { CountryData } from '../../api/ApiConnector';
 import CardList from '../cardList/CardList';
 import Spinner from '../spinner/Spinner';
@@ -14,6 +14,13 @@ const MainPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const [region, setRegion] = useState(searchParams.get('region') || 'All');
   const [search, setSearch] = useState('');
+
+  const filteredCards = useMemo(() => {
+    return cardList.filter((country) => {
+      const hasCountry = country.name.common.toLowerCase().includes(search);
+      return region !== 'All' ? country.region === region && hasCountry : hasCountry;
+    });
+  }, [region, search]);
 
   useEffect(() => {
     setLoading(true);
@@ -32,41 +39,35 @@ const MainPage = () => {
   }, []);
 
   useEffect(() => {
-    filterCardList();
-  }, [loading]);
-
-  useEffect(() => {
     setRegion(() => searchParams.get('region') || 'All');
     setSearch(() => searchParams.get('search') || '');
   }, [trackSearchParams]);
 
   useEffect(() => {
-    filterCardList();
+    setFilteredCardList(filteredCards);
   }, [region, search]);
 
-  const filterCardList = () => {
-    const filteredCards = cardList.filter((country) => {
-      const hasCountry = country.name.common.toLowerCase().includes(search);
-      return region !== 'All' ? country.region === region && hasCountry : hasCountry;
-    });
-    setFilteredCardList(filteredCards);
-  };
+  const sortByName = useCallback(
+    (currentSortUp: boolean) => {
+      if (currentSortUp === true) {
+        filteredCardList.sort((a, b) => (a.name.common > b.name.common ? -1 : 1));
+      } else {
+        filteredCardList.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
+      }
+    },
+    [filteredCardList]
+  );
 
-  const sortByName = (currentSortUp: boolean) => {
-    if (currentSortUp === true) {
-      filteredCardList.sort((a, b) => (a.name.common > b.name.common ? -1 : 1));
-    } else {
-      filteredCardList.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
-    }
-  };
-
-  const sortByPopulation = (currentSortUp: boolean) => {
-    if (currentSortUp === true) {
-      filteredCardList.sort((a, b) => b.population - a.population);
-    } else {
-      filteredCardList.sort((a, b) => a.population - b.population);
-    }
-  };
+  const sortByPopulation = useCallback(
+    (currentSortUp: boolean) => {
+      if (currentSortUp === true) {
+        filteredCardList.sort((a, b) => b.population - a.population);
+      } else {
+        filteredCardList.sort((a, b) => a.population - b.population);
+      }
+    },
+    [filteredCardList]
+  );
 
   const spinner = loading ? <Spinner /> : null;
 
