@@ -1,5 +1,6 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
+import './controlPanel.css';
 
 type ControlPanel = {
   handleNameSort: (arg: boolean) => void;
