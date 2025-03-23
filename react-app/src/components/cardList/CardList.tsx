@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { CountryData } from '../../api/ApiConnector';
 import './cardList.css';
 
@@ -10,8 +10,20 @@ type ItemType = {
 };
 
 const Item = memo(function Item(props: ItemType) {
+  const [colored, setColored] = useState(false);
+  const addItem = (itemName: string) => {
+    setColored(true);
+    localStorage.setItem(itemName, itemName);
+  };
+
   return (
-    <li key={props.item.name.official} className="cardList__item">
+    <li
+      key={props.item.name.official}
+      className={
+        colored || localStorage.getItem(props.item.name.official) ? 'cardList__item colored' : 'cardList__item'
+      }
+      onClick={() => addItem(props.item.name.official)}
+    >
       <img src={props.item.flags.png} alt={props.item.name.common} />
       <p>{`${props.item.name.common} - population: ${props.item.population}; region: ${props.item.region}`}</p>
     </li>

@@ -18,6 +18,10 @@
   transition: all 0.4s;
 }
 
+.colored {
+  background-color: rgb(128,128,128,.7);
+}
+
 .cardList__item:hover {
   scale: 1.05;
 }
